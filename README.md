@@ -4,9 +4,11 @@ My personal project will be a map software where users can create their own maps
 
 ## User Stories
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+*Potential* features:
+- As a user, I want to be able to add trees, mountains, and buildings to a map and specify their dimensions and height
+- As a user, I want to be able to add trails or routes on the map
+- As a user, I want to be able to view all trails or physical features on a map
+- As a user, I want to be able to zoom in and zoom out on the map
+- As a user, I want to be able to click on an object and see features of the object (eg. height, name)
 
 An example of text with **bold** and *italic* fonts.  
