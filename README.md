@@ -9,4 +9,8 @@ My personal project will be a map software where users can create their own maps
 - As a user, I want to be able to add trails or routes on the map
 - As a user, I want to be able to view all trails or physical features on a map
 - As a user, I want to be able to zoom in and zoom out on the map
+<<<<<<< HEAD
 - As a user, I want to be able to click on an object and see features of the object (eg. height, name)
+=======
+- As a user, I want to be able to click on an object and see features of the object (eg. height, name)
+>>>>>>> 33e5e34b94e2d2db08aa8f863ff11d6af3c0a620
