@@ -15,22 +15,20 @@ public abstract class MapObject extends Feature {
     abstract void drawFeature();
 
     // EFFECTS: adds a section to list of sections with specified attributes
-    private void addSection(int x, int y, int xDim, int yDim, int height, String shapeType) {
+    void addSection(int x, int y, int xDim, int yDim, int height, String shapeType) {
 
     }
 
     // REQUIRES: index is valid for list of sections
     // MODIFIES: this
     // EFFECTS: deletes section at index from body
-    private void deleteSection(int index) {
+    void deleteSection(int index) {
 
     }
 
     // MODIFIES: this
     // EFFECTS: deletes all sections from body
-    private void clearBody() {
+    protected void clearBody() {
 
     }
-
-
 }
