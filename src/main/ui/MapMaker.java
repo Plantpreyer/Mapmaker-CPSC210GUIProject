@@ -7,8 +7,8 @@ import model.CustomMap;
 // Map maker / manager application
 // Has a list of map objects that you can select
 public class MapMaker {
-    List<CustomMap> maps;
-    CustomMap selectedMap;
+    private List<CustomMap> maps;
+    private CustomMap selectedMap;
 
 
     // EFFECTS: runs application
@@ -18,27 +18,27 @@ public class MapMaker {
 
     // MODIFIES: this
     // EFFECTS: handles input until quit
-    private void runMapMaker() {
+    void runMapMaker() {
 
     }
     
     // MODIFIES: this
     // EFFECTS: handles operations on selected map object
-    private void manageMap(CustomMap map) {
+    void manageMap(CustomMap map) {
 
     }
 
     // REQUIRES: selectedMap != null
     // MODIFIES: this
     // EFFECTS: deletes selected map
-    private void deleteMap() {
+    void deleteMap() {
 
     }
 
     // REQUIRES: name not empty
     // MODIFIES: this
     // EFFECTS: adds a new map to list with specified name and selects it
-    private void createMap(String name) {
+    void createMap(String name) {
 
     }
 
