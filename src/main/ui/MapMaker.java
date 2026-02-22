@@ -1,13 +1,13 @@
 package ui;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import model.CustomMap;
 
 // Map maker / manager application
 // Has a list of map objects that you can select
 public class MapMaker {
-    ArrayList<CustomMap> maps;
+    List<CustomMap> maps;
     CustomMap selectedMap;
 
 
@@ -20,12 +20,18 @@ public class MapMaker {
     // EFFECTS: handles input until quit
     private void runMapMaker() {
 
-
     }
     
     // MODIFIES: this
     // EFFECTS: handles operations on selected map object
     private void manageMap(CustomMap map) {
+
+    }
+
+    // REQUIRES: selectedMap != null
+    // MODIFIES: this
+    // EFFECTS: deletes selected map
+    private void deleteMap() {
 
     }
 
