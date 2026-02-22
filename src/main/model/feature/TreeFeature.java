@@ -12,6 +12,11 @@ public class TreeFeature extends MapObject {
         body.add(tree);
     }
 
+    // EFFECTS: shows info of tree, including name, height, coords
+    void showInfo() {
+
+    }
+
     // MODIFIES: this
     // EFFECTS: replaces body with new one
     void setBody(int radius, int height) {
@@ -22,7 +27,6 @@ public class TreeFeature extends MapObject {
 
     // EFFECTS: draws the tree as a green circle on the map
     void drawFeature() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drawFeature'");
+        
     }
 }
