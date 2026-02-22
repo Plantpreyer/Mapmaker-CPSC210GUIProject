@@ -1,0 +1,25 @@
+package model.feature;
+
+import java.util.*;
+import java.awt.Color;
+
+// Represents a marker on the map, must have a colour and can have a zone
+public class Marker extends Feature {
+    List<FeatureSection> area;
+
+    // REQUIREMENTS: x > 0, y > 0, name not empty
+    public Marker(String name, int x, int y, Color c) {
+        super(name, x, y);
+        color = c;
+    }
+
+    // EFFECTS: displays info, including name, width/height of zone
+    void showInfo() {
+        
+    }
+
+    // EFFECTS: draws marker with zone on map
+    void drawFeature() {
+
+    }
+}
