@@ -17,6 +17,9 @@ public abstract class Feature {
         this.y = y;
     }
 
+    // EFFECTS: displays info of feature
+    abstract void showInfo();
+
     // EFFECTS: draws feature on selected map
     abstract void drawFeature();
 
