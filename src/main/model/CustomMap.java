@@ -9,10 +9,10 @@ import model.feature.Marker;
 // represents a customiizable map with buildings, roads, trees, routes, and markers
 // map has a name
 public class CustomMap {
-    String name;
-    List<MapObject> objects;
-    List<Marker> markers;
-    Feature selectedFeature;
+    protected String name;
+    protected List<MapObject> objects;
+    protected List<Marker> markers;
+    protected Feature selectedFeature;
 
     // REQUIRES: name not empty
     // MODIFIES: this
@@ -45,5 +45,13 @@ public class CustomMap {
     // EFFECTS: adds an object to list of objects
     public void addObject(String name, int x, int y) {
 
+    }
+
+    public MapObject getObject(int index) {
+        return objects.get(index);
+    }
+
+    public Feature getSelectedFeature() {
+        return selectedFeature;
     }
 }
