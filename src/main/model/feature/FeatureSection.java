@@ -39,4 +39,8 @@ public class FeatureSection {
     void drawFeature() {
 
     }
+
+    public int getHeight() {
+        return height;
+    }
 }

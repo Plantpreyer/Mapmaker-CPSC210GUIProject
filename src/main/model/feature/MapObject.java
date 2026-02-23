@@ -14,15 +14,28 @@ public abstract class MapObject extends Feature {
     // EFFECTS: draws all sections in body on map
     abstract void drawFeature();
 
+    public List<FeatureSection> getBody() {
+        return body;
+    }
+
+    public FeatureSection getSection(int ind) {
+        return body.get(ind);
+    }
+
     // EFFECTS: adds a section to list of sections with specified attributes
-    void addSection(int x, int y, int xDim, int yDim, int height, String shapeType) {
+    public void addSection(int x, int y, int xDim, int yDim, int height) {
+
+    }
+
+    // EFFECTS: adds a section to list of sections with specified attributes
+    public void addSection(int x, int y, int radius, int height) {
 
     }
 
     // REQUIRES: index is valid for list of sections
     // MODIFIES: this
     // EFFECTS: deletes section at index from body
-    void deleteSection(int index) {
+    public void deleteSection(int index) {
 
     }
 
