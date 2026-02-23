@@ -1,6 +1,7 @@
 package model.feature;
 
-
+import java.util.List;
+import java.util.ArrayList;
 
 // Represents a building
 public class Building extends MapObject {
@@ -9,8 +10,17 @@ public class Building extends MapObject {
         super(name, x, y);
     }
 
-    // EFFECTS: shows info of building, including name, max height, coords
-    void showInfo() {
+    // EFFECTS: returns info of building, including name, max height, coords
+    // name: xxx
+    // max height: 123 OR "none"
+    // coords: 1, 2
+    public List<String> getInfo() {
+        return new ArrayList<>(); // stub
+    }
+
+    // EFFECTS: displays info of building, including name, max height, coords
+
+    public void showInfo() {
 
     }
 
