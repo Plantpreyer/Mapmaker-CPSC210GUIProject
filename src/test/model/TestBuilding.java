@@ -32,6 +32,14 @@ public class TestBuilding {
     }
 
     @Test
+    void testGetMaxHeight() {
+        b1.addSection(0, 0, 1, 1, 5);
+        b1.addSection(1, 1, 2, 7);
+        b1.addSection(3, 1, 5, 6);
+        assertEquals(b1.getMaxHeight(), 7);
+    }
+
+    @Test
     void testAddSection() {
         assertTrue(b1.getBody().isEmpty());
         b1.addSection(0, 0, 1, 1, 5);
