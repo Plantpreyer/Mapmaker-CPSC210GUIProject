@@ -13,22 +13,24 @@ import model.feature.FeatureSection;
 
 public class TestBuilding {
     Building b1;
-    
+
     @BeforeEach
     void runBefore() {
-       b1 = new Building("1", 0, 0);
+        b1 = new Building("1", 0, 0);
     }
 
     @Test
     void testGetInfo() {
         List<String> l1 = b1.getInfo();
         assertEquals(l1.get(0), "name: 1");
-        assertEquals(l1.get(0), "max height: none");
-        assertEquals(l1.get(0), "coords: 0, 0");
+        assertEquals(l1.get(1), "max height: none");
+        assertEquals(l1.get(2), "coords: 0, 0");
+
         b1.addSection(0, 0, 5, 20);
+        l1 = b1.getInfo();
         assertEquals(l1.get(0), "name: 1");
-        assertEquals(l1.get(0), "max height: 20");
-        assertEquals(l1.get(0), "coords: 0, 0");
+        assertEquals(l1.get(1), "max height: 20");
+        assertEquals(l1.get(2), "coords: 0, 0");
     }
 
     @Test
@@ -46,9 +48,10 @@ public class TestBuilding {
         b1.addSection(1, 1, 2, 7);
         assertEquals(b1.getBody().size(), 2);
         FeatureSection s1 = b1.getSection(0);
+        FeatureSection s2 = b1.getSection(1);
 
         assertEquals(s1.getHeight(), 5);
-        assertEquals(s1.getHeight(), 7);
+        assertEquals(s2.getHeight(), 7);
     }
 
     @Test

@@ -6,10 +6,12 @@ package model.feature;
 public class TreeFeature extends MapObject {
     FeatureSection tree;
 
+    
+
     public TreeFeature(String name, int x, int y, int radius, int height) {
         super(name, x, y);
         tree = new FeatureSection(0, 0, radius, height);
-        body.add(tree);
+        addSection(tree);
     }
 
     // EFFECTS: shows info of tree, including name, height, coords
@@ -22,7 +24,7 @@ public class TreeFeature extends MapObject {
     void setBody(int radius, int height) {
         tree = new FeatureSection(0, 0, radius, height);
         clearBody();
-        body.add(tree);
+        addSection(tree);
     }
 
     // EFFECTS: draws the tree as a green circle on the map

@@ -4,7 +4,7 @@ import java.util.*;
 
 // Represents a category of features that have a body of sections with dimensions and height
 public abstract class MapObject extends Feature {
-    List<FeatureSection> body;
+    private List<FeatureSection> body;
 
     public MapObject(String name, int x, int y) {
         super(name, x, y);
@@ -22,26 +22,37 @@ public abstract class MapObject extends Feature {
         return body.get(ind);
     }
 
-    // EFFECTS: adds a section to list of sections with specified attributes
-    public void addSection(int x, int y, int xDim, int yDim, int height) {
-
+    // EFFECTS: adds section
+    public void addSection(FeatureSection fs) {
+        body.add(fs);
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: adds a section to list of sections with specified attributes
+    public void addSection(int x, int y, int xDim, int yDim, int height) {
+        FeatureSection s = new FeatureSection(x, y, xDim, yDim, height);
+        body.add(s);
+    }
+
+
+    // MODIFIES: this
     // EFFECTS: adds a section to list of sections with specified attributes
     public void addSection(int x, int y, int radius, int height) {
-
+        FeatureSection s = new FeatureSection(x, y, radius, height);
+        body.add(s);
     }
 
     // REQUIRES: index is valid for list of sections
     // MODIFIES: this
     // EFFECTS: deletes section at index from body
     public void deleteSection(int index) {
-
+        body.remove(index);
     }
 
     // MODIFIES: this
     // EFFECTS: deletes all sections from body
-    protected void clearBody() {
-
+    public void clearBody() {
+        body.clear();
     }
 }

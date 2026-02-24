@@ -2,9 +2,11 @@ package model;
 
 import java.util.*;
 
+import model.feature.Building;
 import model.feature.Feature;
 import model.feature.MapObject;
 import model.feature.Marker;
+import model.feature.TreeFeature;
 
 // represents a customiizable map with buildings, roads, trees, routes, and markers
 // map has a name
@@ -13,6 +15,9 @@ public class CustomMap {
     protected List<MapObject> objects;
     protected List<Marker> markers;
     protected Feature selectedFeature;
+
+    private final String objectCodeBuilding = "BUIL";
+    private final String objectCodeTree = "TREE";
 
     // REQUIRES: name not empty
     // MODIFIES: this
@@ -42,9 +47,21 @@ public class CustomMap {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds an object to list of objects
-    public void addObject(String name, int x, int y) {
-
+    // EFFECTS: adds an object to list of objects, if objType not valid throws Exception
+    public void addObject(String name, int x, int y, String objType) throws Exception {
+        MapObject newObj;
+        switch (objType) {
+            case objectCodeBuilding:
+                newObj = new Building(name, x, y);
+                break;
+        
+            case objectCodeTree:
+                newObj = new TreeFeature(name, x, y, 0, 0);
+                break;
+            default:
+                throw new Exception();
+        }
+        objects.add(newObj);
     }
 
     public MapObject getObject(int index) {
