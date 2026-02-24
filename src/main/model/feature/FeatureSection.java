@@ -3,8 +3,7 @@ package model.feature;
 // Represents a section of an object or zone body, with location of centre relative to feature
 // REQUIRES: shape is "rect" or "circ"
 public class FeatureSection {
-    protected Feature source;
-    protected int height;
+    private int height;
     protected int xDim;
     protected int yDim;
     protected int radius;
@@ -12,6 +11,7 @@ public class FeatureSection {
     protected int x; // relative to the coords of the feature
     protected int y;
 
+    // REQUIRES: dimensions, height are positive (not 0)
     // EFFECTS: Constructs a rectangle
     public FeatureSection(int x, int y, int xDim, int yDim, 
                             int height) {
@@ -20,10 +20,10 @@ public class FeatureSection {
         this.xDim = xDim;
         this.yDim = yDim;
         this.height = height;
-        // this.source = source;
         this.shape = "rect";
     }
 
+    // REQUIRES: radius, height > 0
     // EFFECTS: Constructs a circle
     public FeatureSection(int x, int y, int radius, int height) {
         this.x = x;
@@ -31,7 +31,6 @@ public class FeatureSection {
         this.xDim = radius * 2;
         this.yDim = radius * 2;
         this.height = height;
-        // this.source = source;
         this.shape = "circ";
     }
 
