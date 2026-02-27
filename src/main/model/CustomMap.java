@@ -47,14 +47,15 @@ public class CustomMap {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds an object to list of objects, if objType not valid throws Exception
+    // EFFECTS: adds an object to list of objects, if objType not valid throws
+    // Exception
     public void addObject(String name, int x, int y, String objType) throws Exception {
         MapObject newObj;
         switch (objType) {
             case objectCodeBuilding:
                 newObj = new Building(name, x, y);
                 break;
-        
+
             case objectCodeTree:
                 newObj = new TreeFeature(name, x, y, 0, 0);
                 break;
@@ -64,11 +65,23 @@ public class CustomMap {
         objects.add(newObj);
     }
 
+    // EFFECTS: returns list of strings of info about this map, excluding name
+    public List<String> mapInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        info.add("Objects: " + objects.size());
+        info.add("Markers: " + markers.size());
+        return info;
+    }
+
     public MapObject getObject(int index) {
         return objects.get(index);
     }
 
     public Feature getSelectedFeature() {
         return selectedFeature;
+    }
+
+    public String getName() {
+        return name;
     }
 }
