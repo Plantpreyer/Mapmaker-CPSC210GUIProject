@@ -1,12 +1,12 @@
 package model.feature;
 
+import java.util.ArrayList;
+import java.util.List;
 
 // Represents a tree
 // REQUIRES: Can only have one circular section
 public class TreeFeature extends MapObject {
     FeatureSection tree;
-
-    
 
     public TreeFeature(String name, int x, int y, int radius, int height) {
         super(name, x, y);
@@ -14,14 +14,29 @@ public class TreeFeature extends MapObject {
         addSection(tree);
     }
 
+    public String getType() {
+        return "tree";
+    }
+
+    public List<String> getInfo() {
+        ArrayList<String> info = getPosList();
+        info.add("Height: " + getMaxHeight());
+        info.add("Radius: " + tree.getRadius());
+        return info;
+    }
+
     // EFFECTS: shows info of tree, including name, height, coords
     void showInfo() {
+        
+    }
 
+    public int getMaxHeight() {
+        return tree.getHeight();
     }
 
     // MODIFIES: this
     // EFFECTS: replaces body with new one
-    void setBody(int radius, int height) {
+    public void setBody(int radius, int height) {
         tree = new FeatureSection(0, 0, radius, height);
         clearBody();
         addSection(tree);

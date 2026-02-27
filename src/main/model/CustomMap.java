@@ -8,7 +8,7 @@ import model.feature.MapObject;
 import model.feature.Marker;
 import model.feature.TreeFeature;
 
-// represents a customiizable map with buildings, roads, trees, routes, and markers
+// represents a customizable map with buildings, roads, trees, routes, and markers
 // map has a name
 public class CustomMap {
     protected String name;
@@ -16,8 +16,8 @@ public class CustomMap {
     protected List<Marker> markers;
     protected Feature selectedFeature;
 
-    private final String objectCodeBuilding = "BUIL";
-    private final String objectCodeTree = "TREE";
+    public static final String objectCodeBuilding = "buil";
+    public static final String objectCodeTree = "tree";
 
     // REQUIRES: name not empty
     // MODIFIES: this
@@ -47,21 +47,16 @@ public class CustomMap {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds an object to list of objects, if objType not valid throws
-    // Exception
-    public void addObject(String name, int x, int y, String objType) throws Exception {
-        MapObject newObj;
-        switch (objType) {
-            case objectCodeBuilding:
-                newObj = new Building(name, x, y);
-                break;
+    // EFFECTS: adds an object to list of objects
+    public void addObject(String name, int x, int y) {
+        MapObject newObj = new Building(name, x, y);
+        objects.add(newObj);
+    }
 
-            case objectCodeTree:
-                newObj = new TreeFeature(name, x, y, 0, 0);
-                break;
-            default:
-                throw new Exception();
-        }
+    // MODIFIES: this
+    // EFFECTS: adds an object to list of objects
+    public void addObject(String name, int x, int y, int height, int radius) {
+        MapObject newObj = new TreeFeature(name, x, y, radius, height);
         objects.add(newObj);
     }
 
@@ -69,8 +64,39 @@ public class CustomMap {
     public List<String> mapInfo() {
         ArrayList<String> info = new ArrayList<>();
         info.add("Objects: " + objects.size());
+        List<String> oinfo = objectsInfo();
+        for (String b : oinfo) {
+            info.add(b);
+        }
+
         info.add("Markers: " + markers.size());
+        List<String> minfo = markersInfo();
+        for (String b : minfo) {
+            info.add(b);
+        }
+
         return info;
+    }
+
+    // EFFECTS: returns a list of string of info about objects and markers in map,
+    // respectively
+    private List<String> objectsInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++) {
+            MapObject tempObj = objects.get(i);
+            info.add("" + (i + 1) + ": \'" + tempObj.getName() + "\', Type: " + tempObj.getType());
+
+            List<String> tempInfo = tempObj.getInfo();
+            for (String b : tempInfo) {
+                info.add("\t" + b);
+            }
+        }
+        return info;
+    }
+
+    private List<String> markersInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        return info; // stub
     }
 
     public MapObject getObject(int index) {

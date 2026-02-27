@@ -10,15 +10,14 @@ public class Building extends MapObject {
         super(name, x, y);
     }
 
-    // EFFECTS: returns info of building, including name, max height, coords
-    // name: xxx
-    // max height: 123 OR "none"
+    // EFFECTS: returns info of building, coords, max height
     // coords: 1, 2
+    // max height: 123 OR "none"
+    // sections: 4 sections
     public List<String> getInfo() {
-        ArrayList<String> info = new ArrayList<>();
-        info.add("name: " + name);
+        ArrayList<String> info = getPosList();
         info.add("max height: " + (getBody().isEmpty() ? "none" : getMaxHeight()));
-        info.add("coords: " + xpos + ", " + ypos);
+        info.add("Sections: " + getBody().size() + " sections");
         return info;
     }
 
@@ -34,8 +33,11 @@ public class Building extends MapObject {
         return max;
     }
 
-    // EFFECTS: displays info of building, including name, max height, coords
+    public String getType() {
+        return "building";
+    }
 
+    // EFFECTS: displays info of building, including name, max height, coords
     public void showInfo() {
 
     }

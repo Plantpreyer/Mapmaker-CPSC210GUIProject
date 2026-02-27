@@ -14,9 +14,11 @@ public class MapMaker {
     private String cmdString;
     private Scanner input;
     private boolean quit;
+    private int spamCount;
 
     // EFFECTS: runs application
     public MapMaker() {
+        spamCount = 0;
         selectIndex = 0;
         maps = new ArrayList<>();
         cmdString = "";
@@ -36,14 +38,18 @@ public class MapMaker {
             }
             displayMenu();
 
-            cmdString = input.next();
-            cmdString = cmdString.toLowerCase();
+            cmdString = takeInput();
             try {
                 handleInput(cmdString);
             } catch (InvalidInputException e) {
                 System.out.println("Error: couldn't interpret input.");
+                spamCount++;
+                if (checkSpam()) {
+                    quit = true;
+                }
                 continue;
             }
+            spamCount = 0;
         }
 
         System.out.println("Quitting application...");
@@ -162,18 +168,24 @@ public class MapMaker {
             printManageMenu();
 
             String cmdString;
-            cmdString = input.next();
-            cmdString = cmdString.toLowerCase();
+            cmdString = takeInput();
             try {
-                manageMapAction(cmdString);
+                if (manageMapAction(cmdString)) {
+                    quit = true;
+                }
             } catch (InvalidInputException e) {
                 System.out.println("Error: couldn't interpret input.");
+                spamCount++;
+                if (checkSpam()) {
+                    quit = true;
+                }
                 continue;
             }
+            spamCount = 0;
         }
     }
 
-    private void manageMapAction(String cmdString) throws InvalidInputException {
+    private boolean manageMapAction(String cmdString) throws InvalidInputException {
         switch (cmdString) {
             case "n":
                 constructFeature();
@@ -186,11 +198,11 @@ public class MapMaker {
                     break;
                 }
             case "q":
-                quit = true;
-                break;
+                return true;
             default:
                 throw new InvalidInputException();
         }
+        return false;
     }
 
     // EFFECTS: prints menu for managing map
@@ -220,8 +232,7 @@ public class MapMaker {
     // EFFECTS: deletes selected map
     private boolean deleteMap() throws InvalidInputException {
         System.out.println("!!!!! Are you sure? y/n");
-        cmdString = input.next();
-        cmdString = cmdString.toLowerCase();
+        cmdString = takeInput();
         if (cmdString.equals("y")) {
             System.out.println("WE ARE DELETING YOUR MAP...");
             maps.remove(selectIndex);
@@ -237,10 +248,80 @@ public class MapMaker {
 
     }
 
-    // EFFECTS: asks for specifications from user, then creates a new Feature in
+    private void constructFeature() throws InvalidInputException {
+        System.out.println("Marker (we haven't implemented marker yet) or Object? m/o");
+        String choice = takeInput();
+        if (!(choice.equals("m") | choice.equals("o"))) {
+            throw new InvalidInputException();
+        } else if (choice.equals("m")) {
+            System.out.println("Sorry, we haven't programmed this part yet!");
+        } else {
+            constructObject();
+        }
+
+    }
+
+    // EFFECTS: asks for specifications from user, then creates a new object in
     // selected map
-    private void constructFeature() {
-        System.out.println("DO NEW FEATURE!!!");
+    private void constructObject() throws InvalidInputException {
+        try {
+            System.out.println("Type of object: (\"buil\" or \"tree\")");
+            String type = takeInput();
+            if (!checkValidType(type)) {
+                throw new InvalidInputException();
+            }
+
+            System.out.print("x: ");
+            int newObjX = input.nextInt();
+            System.out.print("y: ");
+            int newObjY = input.nextInt();
+            System.out.print("name: ");
+            String newObjName = input.next();
+
+            switch (type) {
+                case CustomMap.objectCodeBuilding:
+                    constructBuil(newObjName, newObjX, newObjY);
+                    break;
+                case CustomMap.objectCodeTree:
+                    constructTree(newObjName, newObjX, newObjY);
+                    break;
+            }
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
+    private boolean checkValidType(String type) {
+        switch (type) {
+            case CustomMap.objectCodeBuilding:
+                break;
+            case CustomMap.objectCodeTree:
+                break;
+            default:
+                return false;
+
+        }
+        return true;
+    }
+
+    private void constructBuil(String name, int xpos, int ypos) {
+        selectedMap.addObject(name, xpos, ypos);
+    }
+
+    private void constructTree(String name, int xpos, int ypos) throws InvalidInputException {
+        int newRad;
+        int newHeight;
+
+        try {
+            System.out.print("radius of tree: ");
+            newRad = input.nextInt();
+            System.out.print("height of tree: ");
+            newHeight = input.nextInt();
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+
+        selectedMap.addObject(name, xpos, ypos, newHeight, newRad);
     }
 
     // REQUIRES: map != null
@@ -249,5 +330,18 @@ public class MapMaker {
     void selectMap(CustomMap map) {
         selectedMap = map;
         selectIndex = maps.indexOf(map);
+    }
+
+    // EFFECTS: returns a lowercase string of the next user input
+    String takeInput() {
+        String str = input.next();
+        str = str.toLowerCase();
+        return str;
+    }
+
+    // EFFECTS: returns true if user has entered a wrong input 3 times in a row in a
+    // looping menu
+    boolean checkSpam() {
+        return spamCount >= 3;
     }
 }

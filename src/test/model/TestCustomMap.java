@@ -19,7 +19,7 @@ public class TestCustomMap {
     @Test
     void testAddObject() throws Exception {
         assertTrue(m1.objects.isEmpty());
-        m1.addObject("1", 0, 0, "BUIL");
+        m1.addObject("1", 0, 0);
         assertEquals(m1.objects.size(), 1);
         MapObject b = m1.getObject(0);
         assertEquals(b.getName(), "1");
@@ -29,7 +29,7 @@ public class TestCustomMap {
 
     @Test
     void testSelectFeature() throws Exception {
-        m1.addObject("1", 0, 0, "BUIL");
+        m1.addObject("1", 0, 0);
         assertEquals(m1.objects.size(), 1);
         MapObject b = m1.getObject(0);
         m1.selectFeature(b);

@@ -6,7 +6,7 @@ public class FeatureSection {
     private int height;
     protected int xdim;
     protected int ydim;
-    protected int radius;
+    private int radius;
     protected String shape;
     protected int xpos; // relative to the coords of the feature
     protected int ypos;
@@ -28,6 +28,7 @@ public class FeatureSection {
     public FeatureSection(int x, int y, int radius, int height) {
         this.xpos = x;
         this.ypos = y;
+        this.radius = radius;
         this.xdim = radius * 2;
         this.ydim = radius * 2;
         this.height = height;
@@ -41,5 +42,9 @@ public class FeatureSection {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getRadius() {
+        return radius;
     }
 }
