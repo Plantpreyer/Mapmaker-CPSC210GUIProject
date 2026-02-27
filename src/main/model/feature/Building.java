@@ -18,15 +18,15 @@ public class Building extends MapObject {
         ArrayList<String> info = new ArrayList<>();
         info.add("name: " + name);
         info.add("max height: " + (getBody().isEmpty() ? "none" : getMaxHeight()));
-        info.add("coords: " + x + ", " + y);
+        info.add("coords: " + xpos + ", " + ypos);
         return info;
     }
 
     // EFFECTS: returns max height of any section in body
     public int getMaxHeight() {
         int max = getSection(0).getHeight();
-        for(FeatureSection s : getBody()) {
-            if(s.getHeight() > max) {
+        for (FeatureSection s : getBody()) {
+            if (s.getHeight() > max) {
                 max = s.getHeight();
             }
         }

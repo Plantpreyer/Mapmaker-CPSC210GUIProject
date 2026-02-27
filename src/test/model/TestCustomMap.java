@@ -23,8 +23,8 @@ public class TestCustomMap {
         assertEquals(m1.objects.size(), 1);
         MapObject b = m1.getObject(0);
         assertEquals(b.getName(), "1");
-        assertEquals(b.getX(), b.getY());
-        assertEquals(b.getX(), 0);
+        assertEquals(b.getXpos(), b.getYpos());
+        assertEquals(b.getXpos(), 0);
     }
 
     @Test

@@ -27,14 +27,12 @@ public abstract class MapObject extends Feature {
         body.add(fs);
     }
 
-
     // MODIFIES: this
     // EFFECTS: adds a section to list of sections with specified attributes
-    public void addSection(int x, int y, int xDim, int yDim, int height) {
-        FeatureSection s = new FeatureSection(x, y, xDim, yDim, height);
+    public void addSection(int x, int y, int xdim, int ydim, int height) {
+        FeatureSection s = new FeatureSection(x, y, xdim, ydim, height);
         body.add(s);
     }
-
 
     // MODIFIES: this
     // EFFECTS: adds a section to list of sections with specified attributes

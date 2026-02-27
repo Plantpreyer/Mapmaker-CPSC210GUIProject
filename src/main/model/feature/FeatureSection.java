@@ -4,21 +4,21 @@ package model.feature;
 // REQUIRES: shape is "rect" or "circ"
 public class FeatureSection {
     private int height;
-    protected int xDim;
-    protected int yDim;
+    protected int xdim;
+    protected int ydim;
     protected int radius;
     protected String shape;
-    protected int x; // relative to the coords of the feature
-    protected int y;
+    protected int xpos; // relative to the coords of the feature
+    protected int ypos;
 
     // REQUIRES: dimensions, height are positive (not 0)
     // EFFECTS: Constructs a rectangle
-    public FeatureSection(int x, int y, int xDim, int yDim, 
-                            int height) {
-        this.x = x;
-        this.y = y;
-        this.xDim = xDim;
-        this.yDim = yDim;
+    public FeatureSection(int x, int y, int xdim, int ydim,
+            int height) {
+        this.xpos = x;
+        this.ypos = y;
+        this.xdim = xdim;
+        this.ydim = ydim;
         this.height = height;
         this.shape = "rect";
     }
@@ -26,10 +26,10 @@ public class FeatureSection {
     // REQUIRES: radius, height > 0
     // EFFECTS: Constructs a circle
     public FeatureSection(int x, int y, int radius, int height) {
-        this.x = x;
-        this.y = y;
-        this.xDim = radius * 2;
-        this.yDim = radius * 2;
+        this.xpos = x;
+        this.ypos = y;
+        this.xdim = radius * 2;
+        this.ydim = radius * 2;
         this.height = height;
         this.shape = "circ";
     }
