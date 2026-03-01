@@ -251,6 +251,7 @@ public class MapMaker {
 
     }
 
+    // EFFECTS: asks whether user wants to add a marker or object to the map, then does that
     private void constructFeature() throws InvalidInputException {
         System.out.println("Marker (we haven't implemented marker yet) or Object? m/o");
         String choice = takeInput();
@@ -261,7 +262,6 @@ public class MapMaker {
         } else {
             constructObject();
         }
-
     }
 
     // EFFECTS: asks for specifications from user, then creates a new object in
