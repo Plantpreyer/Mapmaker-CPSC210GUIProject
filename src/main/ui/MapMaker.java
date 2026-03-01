@@ -183,11 +183,17 @@ public class MapMaker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: helper method for manageMap and runMapMaker; increases spam count by
+    // 1 and checks if it is >3
     private boolean incrementSpam() {
         spamCount++;
         return checkSpam();
     }
 
+    // MODIFIES: this
+    // EFFECTS: performs certain functionalities based on passed string, returns
+    // true if quit and false otherwise
     private boolean manageMapAction(String cmdString) throws InvalidInputException {
         switch (cmdString) {
             case "n":
@@ -248,10 +254,11 @@ public class MapMaker {
         } else {
             throw new InvalidInputException();
         }
-
     }
 
-    // EFFECTS: asks whether user wants to add a marker or object to the map, then does that
+    // MODIFIES: this
+    // EFFECTS: asks whether user wants to add a marker or object to the map, then
+    // does that
     private void constructFeature() throws InvalidInputException {
         System.out.println("Marker (we haven't implemented marker yet) or Object? m/o");
         String choice = takeInput();
@@ -264,6 +271,7 @@ public class MapMaker {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: asks for specifications from user, then creates a new object in
     // selected map
     private void constructObject() throws InvalidInputException {
@@ -313,6 +321,7 @@ public class MapMaker {
         return newObj;
     }
 
+    // EFFECTS: returns false if type not a valid type of object
     private boolean checkValidType(String type) {
         switch (type) {
             case CustomMap.objectCodeBuilding:
@@ -321,7 +330,6 @@ public class MapMaker {
                 break;
             default:
                 return false;
-
         }
         return true;
     }
