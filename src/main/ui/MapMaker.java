@@ -295,6 +295,7 @@ public class MapMaker {
         return type;
     }
 
+    // EFFECTS: returns a subclass of mapobject depending on string passed
     private MapObject convertObjType(String type) throws InvalidInputException {
         MapObject newObj;
 
