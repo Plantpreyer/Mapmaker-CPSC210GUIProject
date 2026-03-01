@@ -1,10 +1,15 @@
 package model.feature;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 // Represents a building
 public class Building extends MapObject {
+
+    public Building() {
+        super("", 0, 0);
+    }
 
     public Building(String name, int x, int y) {
         super(name, x, y);
@@ -45,5 +50,9 @@ public class Building extends MapObject {
     // EFFECTS: draws the building on the map
     void drawFeature() {
 
+    }
+
+    public Building constructThis(String name, int xpos, int ypos, Scanner input) {
+        return new Building(name, xpos, ypos);
     }
 }

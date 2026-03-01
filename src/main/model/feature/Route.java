@@ -16,7 +16,7 @@ public class Route extends Feature {
 
     }
 
-    // EFFECTS: displays info, including name, width/height of zone
+    // EFFECTS: displays info of route
     void showInfo() {
         
     }

@@ -4,6 +4,9 @@ import java.util.*;
 
 import model.CustomMap;
 import model.exceptions.InvalidInputException;
+import model.feature.Building;
+import model.feature.MapObject;
+import model.feature.TreeFeature;
 
 // Map maker / manager application
 // Has a list of map objects that you can select
@@ -43,10 +46,7 @@ public class MapMaker {
                 handleInput(cmdString);
             } catch (InvalidInputException e) {
                 System.out.println("Error: couldn't interpret input.");
-                spamCount++;
-                if (checkSpam()) {
-                    quit = true;
-                }
+                quit = incrementSpam();
                 continue;
             }
             spamCount = 0;
@@ -151,7 +151,8 @@ public class MapMaker {
     }
 
     // MODIFIES: this
-    // EFFECTS: handles operations on selected map object
+    // EFFECTS: handles operations on selected map object, if no map selected throws
+    // expception
     void manageMap(CustomMap map) throws InvalidInputException {
         if (map == null) {
             throw new InvalidInputException();
@@ -175,14 +176,16 @@ public class MapMaker {
                 }
             } catch (InvalidInputException e) {
                 System.out.println("Error: couldn't interpret input.");
-                spamCount++;
-                if (checkSpam()) {
-                    quit = true;
-                }
+                quit = incrementSpam();
                 continue;
             }
             spamCount = 0;
         }
+    }
+
+    private boolean incrementSpam() {
+        spamCount++;
+        return checkSpam();
     }
 
     private boolean manageMapAction(String cmdString) throws InvalidInputException {
@@ -265,11 +268,7 @@ public class MapMaker {
     // selected map
     private void constructObject() throws InvalidInputException {
         try {
-            System.out.println("Type of object: (\"buil\" or \"tree\")");
-            String type = takeInput();
-            if (!checkValidType(type)) {
-                throw new InvalidInputException();
-            }
+            String type = takeTypeObject();
 
             System.out.print("x: ");
             int newObjX = input.nextInt();
@@ -278,17 +277,39 @@ public class MapMaker {
             System.out.print("name: ");
             String newObjName = input.next();
 
-            switch (type) {
-                case CustomMap.objectCodeBuilding:
-                    constructBuil(newObjName, newObjX, newObjY);
-                    break;
-                case CustomMap.objectCodeTree:
-                    constructTree(newObjName, newObjX, newObjY);
-                    break;
-            }
+            MapObject newObj = convertObjType(type);
+
+            selectedMap.addObject(newObj.constructThis(newObjName, newObjX, newObjY, input));
         } catch (Exception e) {
             throw new InvalidInputException();
         }
+    }
+
+    // EFFECTS: asks user for a string representing type of object and returns it
+    private String takeTypeObject() throws InvalidInputException {
+        System.out.println("Type of object: (\"buil\" or \"tree\")");
+        String type = takeInput();
+        if (!checkValidType(type)) {
+            throw new InvalidInputException();
+        }
+        return type;
+    }
+
+    private MapObject convertObjType(String type) throws InvalidInputException {
+        MapObject newObj;
+
+        switch (type) {
+            case CustomMap.objectCodeBuilding:
+                newObj = new Building();
+                break;
+            case CustomMap.objectCodeTree:
+                newObj = new TreeFeature();
+                break;
+            default:
+                throw new InvalidInputException();
+        }
+
+        return newObj;
     }
 
     private boolean checkValidType(String type) {
@@ -302,26 +323,6 @@ public class MapMaker {
 
         }
         return true;
-    }
-
-    private void constructBuil(String name, int xpos, int ypos) {
-        selectedMap.addObject(name, xpos, ypos);
-    }
-
-    private void constructTree(String name, int xpos, int ypos) throws InvalidInputException {
-        int newRad;
-        int newHeight;
-
-        try {
-            System.out.print("radius of tree: ");
-            newRad = input.nextInt();
-            System.out.print("height of tree: ");
-            newHeight = input.nextInt();
-        } catch (Exception e) {
-            throw new InvalidInputException();
-        }
-
-        selectedMap.addObject(name, xpos, ypos, newHeight, newRad);
     }
 
     // REQUIRES: map != null

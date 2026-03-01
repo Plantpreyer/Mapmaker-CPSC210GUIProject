@@ -60,6 +60,12 @@ public class CustomMap {
         objects.add(newObj);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds an object to list of objects
+    public void addObject(MapObject mapObject) {
+        objects.add(mapObject);
+    }
+
     // EFFECTS: returns list of strings of info about this map, excluding name
     public List<String> mapInfo() {
         ArrayList<String> info = new ArrayList<>();

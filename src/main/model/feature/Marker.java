@@ -1,6 +1,9 @@
 package model.feature;
 
 import java.util.*;
+
+import model.exceptions.InvalidInputException;
+
 import java.awt.Color;
 
 // Represents a marker on the map, must have a colour and can have a zone
@@ -22,4 +25,12 @@ public class Marker extends Feature {
     void drawFeature() {
 
     }
+
+    @Override
+    public Feature constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'constructThis'");
+    }
+
+    
 }

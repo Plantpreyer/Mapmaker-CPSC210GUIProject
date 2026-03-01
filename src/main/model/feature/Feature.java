@@ -1,6 +1,9 @@
 package model.feature;
 
 import java.awt.Color;
+import java.util.Scanner;
+
+import model.exceptions.InvalidInputException;
 
 // Represents a location on the map with a name, coords
 public abstract class Feature {
@@ -20,6 +23,9 @@ public abstract class Feature {
 
     // EFFECTS: draws feature on selected map
     abstract void drawFeature();
+
+    // EFFECTS: asks user for inputs and returns an object
+    public abstract Feature constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException;
 
     public Color getColor() {
         return color;
