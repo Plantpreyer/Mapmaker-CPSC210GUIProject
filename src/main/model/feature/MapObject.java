@@ -19,14 +19,14 @@ public abstract class MapObject extends Feature {
     // EFFECTS: returns a string representing the type of object
     public abstract String getType();
 
-
     public ArrayList<String> getPosList() {
         ArrayList<String> info = new ArrayList<>();
         info.add("Position: " + xpos + ", " + ypos);
         return info;
     }
 
-    // EFFECTS: returns list of strings with various information meant to be displayed
+    // EFFECTS: returns list of strings with various information meant to be
+    // displayed
     public abstract List<String> getInfo();
 
     public abstract int getMaxHeight();
@@ -71,5 +71,6 @@ public abstract class MapObject extends Feature {
         body.clear();
     }
 
-    public abstract MapObject constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException;
+    public abstract MapObject constructThis(String name, int xpos, int ypos, Scanner input)
+            throws InvalidInputException;
 }

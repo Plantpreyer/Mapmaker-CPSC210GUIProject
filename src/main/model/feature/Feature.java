@@ -1,6 +1,7 @@
 package model.feature;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Scanner;
 
 import model.exceptions.InvalidInputException;
@@ -20,6 +21,9 @@ public abstract class Feature {
 
     // EFFECTS: displays info of feature
     abstract void showInfo();
+
+    // EFFECTS: returns list of strings with various information meant to be displayed
+    public abstract List<String> getInfo();
 
     // EFFECTS: draws feature on selected map
     abstract void drawFeature();

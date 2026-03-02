@@ -42,10 +42,10 @@ public class Route extends Feature {
         String cmd = "";
         MapPoint newPoint = new MapPoint();
 
-        System.out.println("Type x and y of first point, like this: \"x y\"");
+        System.out.println("First point:");
         newPoints.add(newPoint.constructThis("", 0, 0, input));
 
-        System.out.println("Type x and y of second point, like this: \"x y\"");
+        System.out.println("Second point:");
         newPoints.add(newPoint.constructThis("", 0, 0, input));
 
         System.out.println("Add another point? y/n");
@@ -55,7 +55,7 @@ public class Route extends Feature {
         }
 
         while (!cmd.equals("n")) {
-            System.out.println("Type x and y of next point, like this: \"x y\"");
+            System.out.println("Next point:");
             newPoints.add(newPoint.constructThis("", 0, 0, input));
 
             System.out.println("Add another point? y/n");
@@ -66,5 +66,20 @@ public class Route extends Feature {
         }
 
         return new Route(name, xpos, ypos, newPoints);
+    }
+
+    // EFFECTS: returns list of info on each point. name, coords
+    public List<String> getInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        for (int i = 0; i < points.size(); i++) {
+            MapPoint tempPt = points.get(i);
+            info.add("Point " + (i + 1) + ": \'" + tempPt.getName() + "\'");
+
+            List<String> tempInfo = tempPt.getInfo();
+            for (String b : tempInfo) {
+                info.add("\t" + b);
+            }
+        }
+        return info;
     }
 }

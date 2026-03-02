@@ -6,6 +6,7 @@ import model.CustomMap;
 import model.exceptions.InvalidInputException;
 import model.feature.Building;
 import model.feature.MapObject;
+import model.feature.Route;
 import model.feature.TreeFeature;
 
 // Map maker / manager application
@@ -260,14 +261,23 @@ public class MapMaker {
     // EFFECTS: asks whether user wants to add a marker or object to the map, then
     // does that
     private void constructFeature() throws InvalidInputException {
-        System.out.println("Marker (we haven't implemented marker yet) or Object? m/o");
+        System.out.println("\tMarker (we haven't implemented marker yet): m");
+        System.out.println("\tRoute: r");
+        System.out.println("\tObject: o");
+
         String choice = takeInput();
-        if (!(choice.equals("m") | choice.equals("o"))) {
-            throw new InvalidInputException();
-        } else if (choice.equals("m")) {
-            System.out.println("Sorry, we haven't programmed this part yet!");
-        } else {
-            constructObject();
+        switch (choice) {
+            case "m":
+                System.out.println("Sorry, we haven't programmed this part yet!");
+                break;
+            case "r":
+                constructRoute();
+                break;
+            case "o":
+                constructObject();
+                break;
+            default:
+                throw new InvalidInputException();
         }
     }
 
@@ -288,6 +298,22 @@ public class MapMaker {
             MapObject newObj = convertObjType(type);
 
             selectedMap.addObject(newObj.constructThis(newObjName, newObjX, newObjY, input));
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: asks for specifications from user, then creates a new route in
+    // selected map
+    private void constructRoute() throws InvalidInputException {
+        try {
+            System.out.print("name: ");
+            String newName = input.next();
+
+            Route newRoute = new Route();
+
+            selectedMap.addRoute(newRoute.constructThis(newName, 0, 0, input));
         } catch (Exception e) {
             throw new InvalidInputException();
         }

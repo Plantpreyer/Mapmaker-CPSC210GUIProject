@@ -28,24 +28,28 @@ public class MapPoint extends Feature {
     }
 
     public MapPoint constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
-        String cmd = "";
         int newX;
         int newY;
         String pointName = "";
 
+        System.out.print("\tx: ");
         newX = input.nextInt();
+        System.out.print("\ty: ");
         newY = input.nextInt();
 
-        System.out.println("Does this point have a name? y/n");
-        cmd = input.next().toLowerCase();
-        if(cmd.equals("y")) {
-            System.out.println("Name the point: ");
-            pointName = input.next();
-        } else if(!cmd.equals("n")) {
-            throw new InvalidInputException();
-        }
+        System.out.println("Name the point (press enter if no name):");
+        pointName = input.next();
 
         return new MapPoint(pointName, newX, newY);
+    }
+
+    @Override
+    public List<String> getInfo() {
+        ArrayList<String> info = new ArrayList<>();
+
+        info.add("x: " + xpos + " y: " + ypos);
+
+        return info;
     }
 
 }

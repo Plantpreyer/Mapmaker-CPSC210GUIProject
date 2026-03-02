@@ -32,5 +32,11 @@ public class Marker extends Feature {
         throw new UnsupportedOperationException("Unimplemented method 'constructThis'");
     }
 
+    @Override
+    public List<String> getInfo() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getInfo'");
+    }
+
     
 }

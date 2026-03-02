@@ -6,6 +6,7 @@ import model.feature.Building;
 import model.feature.Feature;
 import model.feature.MapObject;
 import model.feature.Marker;
+import model.feature.Route;
 import model.feature.TreeFeature;
 
 // represents a customizable map with buildings, roads, trees, routes, and markers
@@ -14,6 +15,7 @@ public class CustomMap {
     protected String name;
     protected List<MapObject> objects;
     protected List<Marker> markers;
+    protected List<Route> routes;
     protected Feature selectedFeature;
 
     public static final String objectCodeBuilding = "buil";
@@ -26,6 +28,7 @@ public class CustomMap {
         this.name = name;
         this.objects = new ArrayList<>();
         this.markers = new ArrayList<>();
+        this.routes = new ArrayList<>();
     }
 
     // MODIFIES: this
@@ -66,6 +69,13 @@ public class CustomMap {
         objects.add(mapObject);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a route to list of routes
+    // REQUIRES: route != null
+    public void addRoute(Route route) {
+        routes.add(route);
+    }
+
     // EFFECTS: returns list of strings of info about this map, excluding name
     public List<String> mapInfo() {
         ArrayList<String> info = new ArrayList<>();
@@ -81,10 +91,16 @@ public class CustomMap {
             info.add(b);
         }
 
+        info.add("Routes: " + routes.size());
+        List<String> rinfo = routesInfo();
+        for (String b : rinfo) {
+            info.add(b);
+        }
+
         return info;
     }
 
-    // EFFECTS: returns a list of string of info about objects and markers in map,
+    // EFFECTS: returns a list of string of info about objects, routes, and markers in map,
     // respectively
     private List<String> objectsInfo() {
         ArrayList<String> info = new ArrayList<>();
@@ -93,6 +109,20 @@ public class CustomMap {
             info.add("" + (i + 1) + ": \'" + tempObj.getName() + "\', Type: " + tempObj.getType());
 
             List<String> tempInfo = tempObj.getInfo();
+            for (String b : tempInfo) {
+                info.add("\t" + b);
+            }
+        }
+        return info;
+    }
+
+    private List<String> routesInfo() {
+        ArrayList<String> info = new ArrayList<>();
+        for (int i = 0; i < routes.size(); i++) {
+            Route tempRoute = routes.get(i);
+            info.add("" + (i + 1) + ": \'" + tempRoute.getName());
+
+            List<String> tempInfo = tempRoute.getInfo();
             for (String b : tempInfo) {
                 info.add("\t" + b);
             }
