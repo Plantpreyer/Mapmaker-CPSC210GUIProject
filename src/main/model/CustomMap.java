@@ -5,21 +5,31 @@ import java.util.*;
 import model.feature.Building;
 import model.feature.Feature;
 import model.feature.MapObject;
+import model.feature.MapPoint;
 import model.feature.Marker;
 import model.feature.Route;
 import model.feature.TreeFeature;
 
+// REQUIRES: viewTopLeft not higher or to the left of 0,0
+//           viewBotRight not higher or to the right of 192, 192
 // represents a customizable map with buildings, roads, trees, routes, and markers
-// map has a name
+// map has a name, and two points representing the view user has on the map
 public class CustomMap {
     protected String name;
     protected List<MapObject> objects;
     protected List<Marker> markers;
     protected List<Route> routes;
     protected Feature selectedFeature;
+    private MapPoint viewTopLeft;
+    private MapPoint viewBotRight;
+    private int viewSize;
+    private MapPoint viewCenter;
 
     public static final String objectCodeBuilding = "buil";
     public static final String objectCodeTree = "tree";
+
+    private static final int MAP_MAX_SIZE = 192;
+    private static final int SHIFT_SIZE = MAP_MAX_SIZE / 4;
 
     // REQUIRES: name not empty
     // MODIFIES: this
@@ -29,6 +39,57 @@ public class CustomMap {
         this.objects = new ArrayList<>();
         this.markers = new ArrayList<>();
         this.routes = new ArrayList<>();
+        viewTopLeft = new MapPoint("", 0, 0);
+        viewBotRight = new MapPoint("", 192, 192);
+        viewSize = MAP_MAX_SIZE;
+        viewCenter = new MapPoint("", MAP_MAX_SIZE / 2, MAP_MAX_SIZE / 2);
+    }
+
+    // REQUIRES: direction == "left", "right", "up", "down"
+    // MODIFIES: this
+    // EFFECTS: moves center SHIFT_SIZE in direction, unless it's already at
+    // boundary
+    public void shiftView(String direction) {
+        switch (direction) {
+            case "left":
+                viewCenter.setXpos(Math.min(0, viewCenter.getXpos() - SHIFT_SIZE));
+                break;
+            case "right":
+                viewCenter.setXpos(Math.max(MAP_MAX_SIZE, viewCenter.getXpos() + SHIFT_SIZE));
+                break;
+            case "up":
+                viewCenter.setXpos(Math.min(0, viewCenter.getYpos() - SHIFT_SIZE));
+                break;
+            case "down":
+                viewCenter.setXpos(Math.min(MAP_MAX_SIZE, viewCenter.getXpos() + SHIFT_SIZE));
+                break;
+            default:
+                break;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: zooms in, unless zoomed in to max
+    public void zoomIn() {
+        viewSize = Math.max(viewSize - SHIFT_SIZE, SHIFT_SIZE);
+        updateView();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: zooms out, unless zoomed out to max
+    public void zoomOut() {
+        viewSize = Math.min(viewSize + SHIFT_SIZE, MAP_MAX_SIZE);
+        updateView();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: updates topleft and botright points to match viewsize and viewcenter
+    public void updateView() {
+        viewTopLeft.setXpos(viewCenter.getXpos() - viewSize / 2);
+        viewTopLeft.setYpos(viewCenter.getYpos() - viewSize / 2);
+
+        viewBotRight.setXpos(viewCenter.getXpos() + viewSize / 2);
+        viewBotRight.setYpos(viewCenter.getYpos() + viewSize / 2);
     }
 
     // MODIFIES: this
@@ -100,7 +161,8 @@ public class CustomMap {
         return info;
     }
 
-    // EFFECTS: returns a list of string of info about objects, routes, and markers in map,
+    // EFFECTS: returns a list of string of info about objects, routes, and markers
+    // in map,
     // respectively
     private List<String> objectsInfo() {
         ArrayList<String> info = new ArrayList<>();
