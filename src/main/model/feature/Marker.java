@@ -7,7 +7,7 @@ import model.exceptions.InvalidInputException;
 import java.awt.Color;
 
 // Represents a marker on the map, must have a colour and can have a zone
-public class Marker extends Feature {
+public class Marker extends MapPoint {
     List<FeatureSection> area;
 
     // REQUIREMENTS: x > 0, y > 0, name not empty
@@ -27,7 +27,7 @@ public class Marker extends Feature {
     }
 
     @Override
-    public Feature constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
+    public Marker constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'constructThis'");
     }

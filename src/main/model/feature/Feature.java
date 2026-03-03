@@ -51,11 +51,11 @@ public abstract class Feature {
         this.name = name;
     }
 
-    protected void setXpos(int x) {
+    public void setXpos(int x) {
         this.xpos = x;
     }
 
-    protected void setYpos(int y) {
+    public void setYpos(int y) {
         this.ypos = y;
     }
 
