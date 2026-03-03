@@ -2,8 +2,6 @@ package model.feature;
 
 import java.util.*;
 
-import model.exceptions.InvalidInputException;
-
 // Represents a route on the map with an ordered list of points
 public class Route extends Feature {
     List<MapPoint> points;
@@ -33,39 +31,6 @@ public class Route extends Feature {
     // EFFECTS: draws route on map
     void drawFeature() {
 
-    }
-
-    // EFFECTS: returns a route based on name, xpos, ypos, and additional prompted
-    // user input
-    public Route constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
-        List<MapPoint> newPoints = new ArrayList<MapPoint>();
-        String cmd = "";
-        MapPoint newPoint = new MapPoint();
-
-        System.out.println("First point:");
-        newPoints.add(newPoint.constructThis("", 0, 0, input));
-
-        System.out.println("Second point:");
-        newPoints.add(newPoint.constructThis("", 0, 0, input));
-
-        System.out.println("Add another point? y/n");
-        cmd = input.next().toLowerCase();
-        if (!(cmd.equals("y") | cmd.equals("n"))) {
-            throw new InvalidInputException();
-        }
-
-        while (!cmd.equals("n")) {
-            System.out.println("Next point:");
-            newPoints.add(newPoint.constructThis("", 0, 0, input));
-
-            System.out.println("Add another point? y/n");
-            cmd = input.next().toLowerCase();
-            if (!(cmd.equals("y") | cmd.equals("n"))) {
-                throw new InvalidInputException();
-            }
-        }
-
-        return new Route(name, xpos, ypos, newPoints);
     }
 
     // EFFECTS: returns list of info on each point. name, coords

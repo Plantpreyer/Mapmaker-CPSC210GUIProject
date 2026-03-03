@@ -2,8 +2,6 @@ package model.feature;
 
 import java.util.*;
 
-import model.exceptions.InvalidInputException;
-
 // Represents a point on the map with a name
 public class MapPoint extends Feature {
     List<FeatureSection> area;
@@ -25,22 +23,6 @@ public class MapPoint extends Feature {
     // EFFECTS: draws point
     void drawFeature() {
 
-    }
-
-    public MapPoint constructThis(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
-        int newX;
-        int newY;
-        String pointName = "";
-
-        System.out.print("\tx: ");
-        newX = input.nextInt();
-        System.out.print("\ty: ");
-        newY = input.nextInt();
-
-        System.out.println("Name the point (press enter if no name):");
-        pointName = input.next();
-
-        return new MapPoint(pointName, newX, newY);
     }
 
     @Override

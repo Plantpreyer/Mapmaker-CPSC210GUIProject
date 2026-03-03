@@ -2,8 +2,6 @@ package model.feature;
 
 import java.util.*;
 
-import model.exceptions.InvalidInputException;
-
 // Represents a category of features that have a body of sections with dimensions and height
 public abstract class MapObject extends Feature {
     private List<FeatureSection> body;
@@ -70,7 +68,4 @@ public abstract class MapObject extends Feature {
     public void clearBody() {
         body.clear();
     }
-
-    public abstract MapObject constructThis(String name, int xpos, int ypos, Scanner input)
-            throws InvalidInputException;
 }

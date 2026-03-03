@@ -4,10 +4,7 @@ import java.util.*;
 
 import model.CustomMap;
 import model.exceptions.InvalidInputException;
-import model.feature.Building;
 import model.feature.MapObject;
-import model.feature.Route;
-import model.feature.TreeFeature;
 
 // Map maker / manager application
 // Has a list of map objects that you can select
@@ -19,6 +16,7 @@ public class MapMaker {
     private Scanner input;
     private boolean quit;
     private int spamCount;
+    private ConstructorClass cons;
 
     // EFFECTS: runs application
     public MapMaker() {
@@ -27,6 +25,8 @@ public class MapMaker {
         maps = new ArrayList<>();
         cmdString = "";
         quit = false;
+        cons = new ConstructorClass();
+
         runMapMaker();
     }
 
@@ -295,9 +295,9 @@ public class MapMaker {
             System.out.print("name: ");
             String newObjName = input.next();
 
-            MapObject newObj = convertObjType(type);
+            MapObject newObj = convertObjType(type, newObjX, newObjY, newObjName);
 
-            selectedMap.addObject(newObj.constructThis(newObjName, newObjX, newObjY, input));
+            selectedMap.addObject(newObj);
         } catch (Exception e) {
             throw new InvalidInputException();
         }
@@ -307,16 +307,14 @@ public class MapMaker {
     // EFFECTS: asks for specifications from user, then creates a new route in
     // selected map
     private void constructRoute() throws InvalidInputException {
-        try {
+        // try {
             System.out.print("name: ");
             String newName = input.next();
 
-            Route newRoute = new Route();
-
-            selectedMap.addRoute(newRoute.constructThis(newName, 0, 0, input));
-        } catch (Exception e) {
-            throw new InvalidInputException();
-        }
+            selectedMap.addRoute(cons.constructRoute(newName, 0, 0, input));
+        // } catch (Exception e) {
+        //     throw new InvalidInputException();
+        // }
     }
 
     // EFFECTS: asks user for a string representing type of object and returns it
@@ -330,15 +328,16 @@ public class MapMaker {
     }
 
     // EFFECTS: returns a subclass of mapobject depending on string passed
-    private MapObject convertObjType(String type) throws InvalidInputException {
+    private MapObject convertObjType(String type, int newObjX, int newObjY, String newObjName)
+            throws InvalidInputException {
         MapObject newObj;
 
         switch (type) {
             case CustomMap.objectCodeBuilding:
-                newObj = new Building();
+                newObj = cons.constructBuilding(newObjName, newObjX, newObjY);
                 break;
             case CustomMap.objectCodeTree:
-                newObj = new TreeFeature();
+                newObj = cons.constructTree(newObjName, newObjX, newObjY, input);
                 break;
             default:
                 throw new InvalidInputException();
