@@ -221,7 +221,7 @@ public class MapMaker {
     private void printManageMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tn -> New Feature!");
-        System.out.println("\te -> Edit Feature... (not implemented)");
+        System.out.println("\te -> Edit Feature");
         System.out.println("\td -> Delete Map.");
         System.out.println("\tq -> Back to menu!");
     }
@@ -309,6 +309,10 @@ public class MapMaker {
     // MODIFIES: this
     // EFFECTS: prompts user for input and then modifies selected route
     private void editRoute() throws InvalidInputException {
+        if(selectedMap.getRoutes().isEmpty()) {
+            System.out.println("No routes!");
+            return;
+        }
         System.out.println("Which route?");
 
         cmdString = takeInput();
@@ -340,6 +344,10 @@ public class MapMaker {
     // MODIFIES: this
     // EFFECTS: prompts user for input and then modifies selected route
     private void editObject() throws InvalidInputException {
+        if(selectedMap.getObjects().isEmpty()) {
+            System.out.println("No objects!");
+            return;
+        }
         System.out.println("Which object?");
 
         cmdString = takeInput();

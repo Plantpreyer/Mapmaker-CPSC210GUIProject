@@ -2,7 +2,7 @@ package model.feature;
 
 import java.util.*;
 
-// Represents a category of features that have a body of sections with dimensions and height
+// Represents a category of features with dimensions and height
 public abstract class MapObject extends Feature {
     // private List<FeatureSection> body;
     protected int height;

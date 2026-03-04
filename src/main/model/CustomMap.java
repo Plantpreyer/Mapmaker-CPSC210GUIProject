@@ -253,4 +253,12 @@ public class CustomMap {
     public String getName() {
         return name;
     }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public List<MapObject> getObjects() {
+        return objects;
+    }
 }
