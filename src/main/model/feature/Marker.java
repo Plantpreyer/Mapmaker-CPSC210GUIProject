@@ -6,7 +6,7 @@ import java.awt.Color;
 
 // Represents a marker on the map, must have a colour and can have a zone
 public class Marker extends MapPoint {
-    List<FeatureSection> area;
+    // List<FeatureSection> area;
 
     // REQUIREMENTS: x > 0, y > 0, name not empty
     public Marker(String name, int x, int y, Color c) {

@@ -4,7 +4,7 @@ import java.util.*;
 
 // Represents a point on the map with a name
 public class MapPoint extends Feature {
-    List<FeatureSection> area;
+    // List<FeatureSection> area;
 
     public MapPoint() {
         super("", 0, 0);

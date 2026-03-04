@@ -4,11 +4,13 @@ import java.util.*;
 
 // Represents a category of features that have a body of sections with dimensions and height
 public abstract class MapObject extends Feature {
-    private List<FeatureSection> body;
+    // private List<FeatureSection> body;
+    protected int height;
 
-    public MapObject(String name, int x, int y) {
+    public MapObject(String name, int x, int y, int height) {
         super(name, x, y);
-        body = new ArrayList<>();
+        this.height = height;
+        // body = new ArrayList<>();
     }
 
     // EFFECTS: draws all sections in body on map
@@ -27,45 +29,45 @@ public abstract class MapObject extends Feature {
     // displayed
     public abstract List<String> getInfo();
 
-    public abstract int getMaxHeight();
+    public abstract int getHeight();
 
-    public List<FeatureSection> getBody() {
-        return body;
-    }
+    // public List<FeatureSection> getBody() {
+    //     return body;
+    // }
 
-    public FeatureSection getSection(int ind) {
-        return body.get(ind);
-    }
+    // public FeatureSection getSection(int ind) {
+    //     return body.get(ind);
+    // }
 
     // EFFECTS: adds section
-    public void addSection(FeatureSection fs) {
-        body.add(fs);
-    }
+    // public void addSection(FeatureSection fs) {
+    //     body.add(fs);
+    // }
 
     // MODIFIES: this
     // EFFECTS: adds a section to list of sections with specified attributes
-    public void addSection(int x, int y, int xdim, int ydim, int height) {
-        FeatureSection s = new FeatureSection(x, y, xdim, ydim, height);
-        body.add(s);
-    }
+    // public void addSection(int x, int y, int xdim, int ydim, int height) {
+    //     FeatureSection s = new FeatureSection(x, y, xdim, ydim, height);
+    //     body.add(s);
+    // }
 
     // MODIFIES: this
     // EFFECTS: adds a section to list of sections with specified attributes
-    public void addSection(int x, int y, int radius, int height) {
-        FeatureSection s = new FeatureSection(x, y, radius, height);
-        body.add(s);
-    }
+    // public void addSection(int x, int y, int radius, int height) {
+    //     FeatureSection s = new FeatureSection(x, y, radius, height);
+    //     body.add(s);
+    // }
 
     // REQUIRES: index is valid for list of sections
     // MODIFIES: this
     // EFFECTS: deletes section at index from body
-    public void deleteSection(int index) {
-        body.remove(index);
-    }
+    // public void deleteSection(int index) {
+    //     body.remove(index);
+    // }
 
     // MODIFIES: this
     // EFFECTS: deletes all sections from body
-    public void clearBody() {
-        body.clear();
-    }
+    // public void clearBody() {
+    //     body.clear();
+    // }
 }

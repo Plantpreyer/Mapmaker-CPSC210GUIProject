@@ -43,6 +43,10 @@ public abstract class Feature {
         return name;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

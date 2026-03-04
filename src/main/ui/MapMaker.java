@@ -412,8 +412,10 @@ public class MapMaker {
             int newObjY = input.nextInt();
             System.out.print("name: ");
             String newObjName = input.next();
+            System.out.println("height: ");
+            int newObjHeight = input.nextInt();
 
-            MapObject newObj = convertObjType(type, newObjX, newObjY, newObjName);
+            MapObject newObj = convertObjType(type, newObjX, newObjY, newObjName, newObjHeight);
 
             selectedMap.addObject(newObj);
         } catch (Exception e) {
@@ -446,13 +448,13 @@ public class MapMaker {
     }
 
     // EFFECTS: returns a subclass of mapobject depending on string passed
-    private MapObject convertObjType(String type, int newObjX, int newObjY, String newObjName)
+    private MapObject convertObjType(String type, int newObjX, int newObjY, String newObjName, int newObjHeight)
             throws InvalidInputException {
         MapObject newObj;
 
         switch (type) {
             case CustomMap.objectCodeBuilding:
-                newObj = cons.constructBuilding(newObjName, newObjX, newObjY);
+                newObj = cons.constructBuilding(newObjName, newObjX, newObjY, newObjHeight);
                 break;
             case CustomMap.objectCodeTree:
                 newObj = cons.constructTree(newObjName, newObjX, newObjY, input);

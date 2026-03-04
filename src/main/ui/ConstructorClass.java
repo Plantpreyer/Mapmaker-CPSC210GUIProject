@@ -65,8 +65,8 @@ public class ConstructorClass {
         return new MapPoint(pointName, newX, newY);
     }
 
-    public Building constructBuilding(String name, int xpos, int ypos) {
-        return new Building(name, xpos, ypos);
+    public Building constructBuilding(String name, int xpos, int ypos, int height) {
+        return new Building(name, xpos, ypos, height);
     }
 
     public TreeFeature constructTree(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {

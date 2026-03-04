@@ -6,18 +6,18 @@ import java.util.List;
 // Represents a tree
 // REQUIRES: Can only have one circular section
 public class TreeFeature extends MapObject {
-    FeatureSection tree;
+    // FeatureSection tree;
     
     public TreeFeature() {
-        super("", 0, 0);
-        tree = new FeatureSection(0, 0, 0, 0);
-        addSection(tree);
+        super("", 0, 0, 0);
+        // tree = new FeatureSection(0, 0, 0, 0);
+        // addSection(tree);
     }
 
     public TreeFeature(String name, int x, int y, int radius, int height) {
-        super(name, x, y);
-        tree = new FeatureSection(0, 0, radius, height);
-        addSection(tree);
+        super(name, x, y, height);
+        // tree = new FeatureSection(0, 0, radius, height);
+        // addSection(tree);
     }
 
     public String getType() {
@@ -26,8 +26,8 @@ public class TreeFeature extends MapObject {
 
     public List<String> getInfo() {
         ArrayList<String> info = getPosList();
-        info.add("Height: " + getMaxHeight());
-        info.add("Radius: " + tree.getRadius());
+        info.add("Height: " + getHeight());
+        info.add("Radius: " + getRadius());
         return info;
     }
 
@@ -36,16 +36,18 @@ public class TreeFeature extends MapObject {
         
     }
 
-    public int getMaxHeight() {
-        return tree.getHeight();
+    public int getHeight() {
+        return getHeight();
     }
 
     // MODIFIES: this
     // EFFECTS: replaces body with new one
     public void setBody(int radius, int height) {
-        tree = new FeatureSection(0, 0, radius, height);
-        clearBody();
-        addSection(tree);
+        // tree = new FeatureSection(0, 0, radius, height);
+        // clearBody();
+        // addSection(tree);
+        this.radius = radius;
+        this.height = height;
     }
 
     // EFFECTS: draws the tree as a green circle on the map

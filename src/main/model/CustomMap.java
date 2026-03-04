@@ -101,8 +101,8 @@ public class CustomMap {
 
     // EFFECTS: returns first route with name in routes
     public Route findRoute(String name) throws InvalidInputException {
-        for(Route b : routes) {
-            if(name.equals(b.getName().toLowerCase())) {
+        for (Route b : routes) {
+            if (name.equals(b.getName().toLowerCase())) {
                 return b;
             }
         }
@@ -117,8 +117,8 @@ public class CustomMap {
 
     // EFFECTS: returns first route with name in routes
     public MapObject findObject(String name) throws InvalidInputException {
-        for(MapObject b : objects) {
-            if(name.equals(b.getName().toLowerCase())) {
+        for (MapObject b : objects) {
+            if (name.equals(b.getName().toLowerCase())) {
                 return b;
             }
         }
@@ -145,8 +145,8 @@ public class CustomMap {
 
     // MODIFIES: this
     // EFFECTS: adds an object to list of objects
-    public void addObject(String name, int x, int y) {
-        MapObject newObj = new Building(name, x, y);
+    public void addObject(String name, int x, int y, int height) {
+        MapObject newObj = new Building(name, x, y, height);
         objects.add(newObj);
     }
 
