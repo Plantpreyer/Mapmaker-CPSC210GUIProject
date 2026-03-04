@@ -2,6 +2,7 @@ package model;
 
 import java.util.*;
 
+import model.exceptions.InvalidInputException;
 import model.feature.Building;
 import model.feature.Feature;
 import model.feature.MapObject;
@@ -98,6 +99,38 @@ public class CustomMap {
         selectedFeature = f;
     }
 
+    // EFFECTS: returns first route with name in routes
+    public Route findRoute(String name) throws InvalidInputException {
+        for(Route b : routes) {
+            if(name.equals(b.getName().toLowerCase())) {
+                return b;
+            }
+        }
+        throw new InvalidInputException();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: replaces route with a new one
+    public void editRoute(Route selectRoute, Route newRoute) {
+        selectRoute = newRoute;
+    }
+
+    // EFFECTS: returns first route with name in routes
+    public MapObject findObject(String name) throws InvalidInputException {
+        for(MapObject b : objects) {
+            if(name.equals(b.getName().toLowerCase())) {
+                return b;
+            }
+        }
+        throw new InvalidInputException();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: replaces route with a new one
+    public void editObject(Route selectRoute, Route newRoute) {
+
+    }
+
     // MODIFIES: this
     // EFFECTS: selects mapObject at index
     public void selectObject(int ind) {
@@ -131,10 +164,22 @@ public class CustomMap {
     }
 
     // MODIFIES: this
+    // EFFECTS: deletes object
+    public void deleteObject(MapObject mapObject) {
+        objects.remove(mapObject);
+    }
+
+    // MODIFIES: this
     // EFFECTS: adds a route to list of routes
     // REQUIRES: route != null
     public void addRoute(Route route) {
         routes.add(route);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: deletes object
+    public void deleteRoute(Route route) {
+        routes.remove(route);
     }
 
     // EFFECTS: returns list of strings of info about this map, excluding name
@@ -164,7 +209,7 @@ public class CustomMap {
     // EFFECTS: returns a list of string of info about objects, routes, and markers
     // in map,
     // respectively
-    private List<String> objectsInfo() {
+    public List<String> objectsInfo() {
         ArrayList<String> info = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             MapObject tempObj = objects.get(i);
@@ -178,11 +223,11 @@ public class CustomMap {
         return info;
     }
 
-    private List<String> routesInfo() {
+    public List<String> routesInfo() {
         ArrayList<String> info = new ArrayList<>();
         for (int i = 0; i < routes.size(); i++) {
             Route tempRoute = routes.get(i);
-            info.add("" + (i + 1) + ": \'" + tempRoute.getName());
+            info.add("" + (i + 1) + ": \'" + tempRoute.getName() + "\'");
 
             List<String> tempInfo = tempRoute.getInfo();
             for (String b : tempInfo) {
@@ -192,7 +237,7 @@ public class CustomMap {
         return info;
     }
 
-    private List<String> markersInfo() {
+    public List<String> markersInfo() {
         ArrayList<String> info = new ArrayList<>();
         return info; // stub
     }

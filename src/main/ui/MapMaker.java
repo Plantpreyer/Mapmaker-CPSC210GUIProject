@@ -4,7 +4,9 @@ import java.util.*;
 
 import model.CustomMap;
 import model.exceptions.InvalidInputException;
+import model.exceptions.ObjectClassificationException;
 import model.feature.MapObject;
+import model.feature.Route;
 
 // Map maker / manager application
 // Has a list of map objects that you can select
@@ -201,7 +203,7 @@ public class MapMaker {
                 constructFeature();
                 break;
             case "e":
-                System.out.println("Sorry, we haven't made this feature yet.");
+                editFeature();
                 break;
             case "d":
                 if (!deleteMap()) {
@@ -282,6 +284,122 @@ public class MapMaker {
     }
 
     // MODIFIES: this
+    // EFFECTS: asks which feature user wants to edit and does that
+    private void editFeature() throws InvalidInputException {
+        System.out.println("\tMarker (we haven't implemented marker yet): m");
+        System.out.println("\tRoute: r");
+        System.out.println("\tObject: o");
+
+        String choice = takeInput();
+        switch (choice) {
+            case "m":
+                System.out.println("Sorry, we haven't programmed this part yet!");
+                break;
+            case "r":
+                editRoute();
+                break;
+            case "o":
+                editObject();
+                break;
+            default:
+                throw new InvalidInputException();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prompts user for input and then modifies selected route
+    private void editRoute() throws InvalidInputException {
+        System.out.println("Which route?");
+
+        cmdString = takeInput();
+        Route selectRoute = selectedMap.findRoute(cmdString);
+
+        System.out.println("Delete? (y/n)");
+        cmdString = takeInput();
+        switch (cmdString) {
+            case "y":
+                selectedMap.deleteRoute(selectRoute);
+                return;
+            case "n":
+                break;
+            default:
+                throw new InvalidInputException();
+        }
+
+        try {
+            System.out.print("name: ");
+            String newName = input.next();
+
+            Route newRoute = cons.constructRoute(newName, 0, 0, input);
+            selectedMap.editRoute(selectRoute, newRoute);
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prompts user for input and then modifies selected route
+    private void editObject() throws InvalidInputException {
+        System.out.println("Which object?");
+
+        cmdString = takeInput();
+        MapObject selectObject = selectedMap.findObject(cmdString);
+
+        try {
+            handleEditObject(selectObject);
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
+    private void handleEditObject(MapObject selectObject) throws InvalidInputException, ObjectClassificationException {
+        System.out.println("Edit name (n)");
+        System.out.println("Edit dimensions (a)");
+        System.out.println("Delete (d)");
+        cmdString = takeInput();
+
+        switch (cmdString) {
+            case "n":
+                System.out.println("name: ");
+                cmdString = input.next();
+                selectObject.setName(cmdString);
+                break;
+            case "a":
+                editObjectDimensions(selectObject);
+                break;
+            case "d":
+                selectedMap.deleteObject(selectObject);
+                break;
+            default:
+                throw new InvalidInputException();
+        }
+    }
+
+    private void editObjectDimensions(MapObject selectObject)
+            throws ObjectClassificationException, InvalidInputException {
+        try {
+            switch (selectObject.getType()) {
+                case "building":
+                    System.out.println("x: ");
+                    selectObject.setXpos(Integer.parseInt(input.next()));
+                    System.out.println("y: ");
+                    selectObject.setYpos(Integer.parseInt(input.next()));
+                    break;
+                case "tree":
+                    System.out.println("radius: ");
+                    selectObject.setRad(Integer.parseInt(input.next()));
+                    break;
+                default:
+                    throw new ObjectClassificationException();
+            }
+        } catch (ObjectClassificationException e) {
+            System.out.println("Couldn't find object type.");
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: asks for specifications from user, then creates a new object in
     // selected map
     private void constructObject() throws InvalidInputException {
@@ -307,14 +425,14 @@ public class MapMaker {
     // EFFECTS: asks for specifications from user, then creates a new route in
     // selected map
     private void constructRoute() throws InvalidInputException {
-        // try {
+        try {
             System.out.print("name: ");
             String newName = input.next();
 
             selectedMap.addRoute(cons.constructRoute(newName, 0, 0, input));
-        // } catch (Exception e) {
-        //     throw new InvalidInputException();
-        // }
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
     }
 
     // EFFECTS: asks user for a string representing type of object and returns it

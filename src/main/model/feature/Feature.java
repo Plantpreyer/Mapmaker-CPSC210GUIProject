@@ -9,6 +9,7 @@ public abstract class Feature {
     protected String name;
     protected int xpos;
     protected int ypos;
+    protected int radius;
 
     public Feature(String name, int x, int y) {
         this.name = name;
@@ -19,7 +20,8 @@ public abstract class Feature {
     // EFFECTS: displays info of feature
     abstract void showInfo();
 
-    // EFFECTS: returns list of strings with various information meant to be displayed
+    // EFFECTS: returns list of strings with various information meant to be
+    // displayed
     public abstract List<String> getInfo();
 
     // EFFECTS: draws feature on selected map
@@ -41,7 +43,7 @@ public abstract class Feature {
         return name;
     }
 
-    protected void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -53,8 +55,12 @@ public abstract class Feature {
         this.ypos = y;
     }
 
-    protected void setColor(Color color) {
+    public void setColor(Color color) {
         this.color = color;
+    }
+
+    public void setRad(int rad) {
+        this.radius = rad;
     }
 
 }
