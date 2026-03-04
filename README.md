@@ -5,6 +5,9 @@ My personal project will be a map software where users can create their own maps
 ## User Stories
 
 *Potential* features:
+- As a user, I want to be able to add maps to the application
+- I want to be able to edit maps
+- I want to be able to delete maps
 - As a user, I want to be able to add trees, mountains, and buildings to a map and specify their dimensions and height
 - As a user, I want to be able to add trails or routes on the map
 - As a user, I want to be able to view all trails or physical features on a map
