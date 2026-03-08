@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import model.exceptions.InvalidInputException;
+import exceptions.InvalidInputException;
 import model.feature.Building;
 import model.feature.MapPoint;
 import model.feature.Route;
@@ -46,7 +46,7 @@ public class ConstructorClass {
             }
         }
 
-        return new Route(name, xpos, ypos, newPoints);
+        return new Route(name, newPoints);
     }
 
     public MapPoint constructPoint(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
@@ -65,8 +65,20 @@ public class ConstructorClass {
         return new MapPoint(pointName, newX, newY);
     }
 
-    public Building constructBuilding(String name, int xpos, int ypos, int height) {
-        return new Building(name, xpos, ypos, height);
+    public Building constructBuilding(String name, int xpos, int ypos, int height, Scanner input) throws InvalidInputException {
+        int newWidth;
+        int newLength;
+
+        try {
+            System.out.print("width of building: ");
+            newWidth = input.nextInt();
+            System.out.print("length of building: ");
+            newLength = input.nextInt();
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+
+        return new Building(name, xpos, ypos, newWidth, newLength, height);
     }
 
     public TreeFeature constructTree(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {

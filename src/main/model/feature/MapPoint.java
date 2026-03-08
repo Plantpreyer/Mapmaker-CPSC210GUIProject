@@ -16,20 +16,18 @@ public class MapPoint extends Feature {
     }
 
     // EFFECTS: displays info
-    void showInfo() {
+    // void showInfo() {
 
-    }
+    // }
 
     // EFFECTS: draws point
-    void drawFeature() {
+    // void drawFeature() {
 
-    }
+    // }
 
     @Override
     public List<String> getInfo() {
-        ArrayList<String> info = new ArrayList<>();
-
-        info.add("x: " + xpos + " y: " + ypos);
+        ArrayList<String> info = getPosList();
 
         return info;
     }

@@ -11,27 +11,35 @@ public class Route extends Feature {
         points = new ArrayList<>();
     }
 
-    // REQUIREMENTS: x > 0, y > 0, name not empty
-    public Route(String name, int x, int y) {
-        super(name, x, y);
-        points = new ArrayList<>();
+    // REQUIREMENTS: name not empty
+    public Route(String name) {
+        super(name, 0, 0);
+        this.points = new ArrayList<>();
     }
 
     // REQUIREMENTS: x > 0, y > 0, name not empty
-    public Route(String name, int x, int y, List<MapPoint> points) {
-        super(name, x, y);
+    public Route(String name, List<MapPoint> points) {
+        super(name, 0, 0);
+        this.points = List.copyOf(points);
+    }
+
+    public List<MapPoint> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<MapPoint> points) {
         this.points = points;
     }
 
     // EFFECTS: displays info of route
-    void showInfo() {
+    // void showInfo() {
 
-    }
+    // }
 
     // EFFECTS: draws route on map
-    void drawFeature() {
+    // void drawFeature() {
 
-    }
+    // }
 
     // EFFECTS: returns list of info on each point. name, coords
     public List<String> getInfo() {

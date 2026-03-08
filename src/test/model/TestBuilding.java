@@ -1,70 +1,64 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.feature.Building;
-import model.feature.FeatureSection;
 
 public class TestBuilding {
     Building b1;
 
     @BeforeEach
     void runBefore() {
-        b1 = new Building("1", 0, 0);
+        b1 = new Building("1", 0, 0, 0);
+    }
+
+    @Test
+    void testCons() {
+        b1 = new Building();
+        assertEquals("" , b1.getName());
+        assertEquals(0 , b1.getXpos());
+        assertEquals(0 , b1.getYpos());
+        assertEquals(0 , b1.getHeight());
+
+        b1 = new Building("ggggg");
+        assertEquals("ggggg" , b1.getName());
+        assertEquals(0 , b1.getXpos());
+        assertEquals(0 , b1.getYpos());
+        assertEquals(0 , b1.getHeight());
+
+        b1 = new Building("1", 1, 1, 1);
+        assertEquals("1" , b1.getName());
+        assertEquals(1 , b1.getXpos());
+        assertEquals(1 , b1.getYpos());
+        assertEquals(1 , b1.getHeight());
+
+        b1 = new Building("1", 5, 5, 5, 5, 5);
+        assertEquals("1" , b1.getName());
+        assertEquals(5 , b1.getXpos());
+        assertEquals(5 , b1.getYpos());
+        assertEquals(5 , b1.getXdim());
+        assertEquals(5 , b1.getYdim());
+        assertEquals(5 , b1.getHeight());
     }
 
     @Test
     void testGetInfo() {
         List<String> l1 = b1.getInfo();
-        assertEquals(l1.get(0), "name: 1");
-        assertEquals(l1.get(1), "max height: none");
-        assertEquals(l1.get(2), "coords: 0, 0");
+        List<String> l2 = b1.getPosList();
 
-        b1.addSection(0, 0, 5, 20);
-        l1 = b1.getInfo();
-        assertEquals(l1.get(0), "name: 1");
-        assertEquals(l1.get(1), "max height: 20");
-        assertEquals(l1.get(2), "coords: 0, 0");
+        l2.add("height: 0");
+        l2.add("width: 0 length: 0");
+
+        assertEquals(l2, l1);
     }
 
     @Test
-    void testGetMaxHeight() {
-        b1.addSection(0, 0, 1, 1, 5);
-        b1.addSection(1, 1, 2, 7);
-        b1.addSection(3, 1, 5, 6);
-        assertEquals(b1.getMaxHeight(), 7);
-    }
-
-    @Test
-    void testAddSection() {
-        assertTrue(b1.getBody().isEmpty());
-        b1.addSection(0, 0, 1, 1, 5);
-        b1.addSection(1, 1, 2, 7);
-        assertEquals(b1.getBody().size(), 2);
-        FeatureSection s1 = b1.getSection(0);
-        FeatureSection s2 = b1.getSection(1);
-
-        assertEquals(s1.getHeight(), 5);
-        assertEquals(s2.getHeight(), 7);
-    }
-
-    @Test
-    void testDeleteSection() {
-        b1.addSection(0, 0, 1, 1, 5);
-        b1.addSection(1, 1, 2, 7);
-        FeatureSection s1 = b1.getSection(0);
-
-        b1.deleteSection(1);
-        assertEquals(b1.getBody().size(), 1);
-        assertEquals(b1.getSection(0), s1);
-
-        b1.deleteSection(0);
-        assertEquals(b1.getBody().size(), 0);
+    void testGetType() {
+        assertEquals("building", b1.getType());
     }
 }

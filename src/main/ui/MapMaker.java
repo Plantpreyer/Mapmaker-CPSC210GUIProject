@@ -2,9 +2,9 @@ package ui;
 
 import java.util.*;
 
+import exceptions.InvalidInputException;
+import exceptions.ObjectClassificationException;
 import model.CustomMap;
-import model.exceptions.InvalidInputException;
-import model.exceptions.ObjectClassificationException;
 import model.feature.MapObject;
 import model.feature.Route;
 
@@ -309,7 +309,7 @@ public class MapMaker {
     // MODIFIES: this
     // EFFECTS: prompts user for input and then modifies selected route
     private void editRoute() throws InvalidInputException {
-        if(selectedMap.getRoutes().isEmpty()) {
+        if (selectedMap.getRoutes().isEmpty()) {
             System.out.println("No routes!");
             return;
         }
@@ -319,15 +319,10 @@ public class MapMaker {
         Route selectRoute = selectedMap.findRoute(cmdString);
 
         System.out.println("Delete? (y/n)");
-        cmdString = takeInput();
-        switch (cmdString) {
-            case "y":
-                selectedMap.deleteRoute(selectRoute);
-                return;
-            case "n":
-                break;
-            default:
-                throw new InvalidInputException();
+
+        if (takeYesNo()) {
+            selectedMap.deleteRoute(selectRoute);
+            return;
         }
 
         try {
@@ -344,7 +339,7 @@ public class MapMaker {
     // MODIFIES: this
     // EFFECTS: prompts user for input and then modifies selected route
     private void editObject() throws InvalidInputException {
-        if(selectedMap.getObjects().isEmpty()) {
+        if (selectedMap.getObjects().isEmpty()) {
             System.out.println("No objects!");
             return;
         }
@@ -360,10 +355,16 @@ public class MapMaker {
         }
     }
 
-    private void handleEditObject(MapObject selectObject) throws InvalidInputException, ObjectClassificationException {
+    private void printEditObjectMenu() {
         System.out.println("Edit name (n)");
-        System.out.println("Edit dimensions (a)");
+        System.out.println("Edit position (a)");
+        System.out.println("Edit dimensions (s)");
+        System.out.println("Edit height (f)");
         System.out.println("Delete (d)");
+    }
+
+    private void handleEditObject(MapObject selectObject) throws InvalidInputException, ObjectClassificationException {
+        printEditObjectMenu();
         cmdString = takeInput();
 
         switch (cmdString) {
@@ -373,7 +374,13 @@ public class MapMaker {
                 selectObject.setName(cmdString);
                 break;
             case "a":
+                editObjectCoords(selectObject);
+                break;
+            case "s":
                 editObjectDimensions(selectObject);
+                break;
+            case "f":
+                editObjectHeight(selectObject);
                 break;
             case "d":
                 selectedMap.deleteObject(selectObject);
@@ -383,25 +390,47 @@ public class MapMaker {
         }
     }
 
+    private void editObjectCoords(MapObject selectObject)
+            throws InvalidInputException {
+        try {
+            System.out.println("x: ");
+            selectObject.setXpos(Integer.parseInt(input.next()));
+            System.out.println("y: ");
+            selectObject.setYpos(Integer.parseInt(input.next()));
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
     private void editObjectDimensions(MapObject selectObject)
             throws ObjectClassificationException, InvalidInputException {
         try {
             switch (selectObject.getType()) {
                 case "building":
-                    System.out.println("x: ");
-                    selectObject.setXpos(Integer.parseInt(input.next()));
-                    System.out.println("y: ");
-                    selectObject.setYpos(Integer.parseInt(input.next()));
+                    System.out.println("width (x): ");
+                    selectObject.setXdim(Integer.parseInt(input.next()));
+                    System.out.println("length (y): ");
+                    selectObject.setYdim(Integer.parseInt(input.next()));
                     break;
                 case "tree":
                     System.out.println("radius: ");
-                    selectObject.setRad(Integer.parseInt(input.next()));
+                    selectObject.setRadius(Integer.parseInt(input.next()));
                     break;
                 default:
                     throw new ObjectClassificationException();
             }
         } catch (ObjectClassificationException e) {
             System.out.println("Couldn't find object type.");
+        } catch (Exception e) {
+            throw new InvalidInputException();
+        }
+    }
+
+    private void editObjectHeight(MapObject selectObject)
+            throws InvalidInputException {
+        try {
+            System.out.println("height: ");
+            selectObject.setHeight(Integer.parseInt(input.next()));
         } catch (Exception e) {
             throw new InvalidInputException();
         }
@@ -462,7 +491,7 @@ public class MapMaker {
 
         switch (type) {
             case CustomMap.objectCodeBuilding:
-                newObj = cons.constructBuilding(newObjName, newObjX, newObjY, newObjHeight);
+                newObj = cons.constructBuilding(newObjName, newObjX, newObjY, newObjHeight, input);
                 break;
             case CustomMap.objectCodeTree:
                 newObj = cons.constructTree(newObjName, newObjX, newObjY, input);
@@ -506,5 +535,19 @@ public class MapMaker {
     // looping menu
     boolean checkSpam() {
         return spamCount >= 3;
+    }
+
+    // EFFECTS: returns true if input is y, false if input is n, else throws
+    // exception
+    boolean takeYesNo() throws InvalidInputException {
+        cmdString = takeInput();
+        switch (cmdString) {
+            case "y":
+                return true;
+            case "n":
+                return false;
+            default:
+                throw new InvalidInputException();
+        }
     }
 }

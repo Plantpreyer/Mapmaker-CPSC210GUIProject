@@ -1,11 +1,12 @@
 package model.feature;
 
-import java.awt.Color;
+// import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 // Represents a location on the map with a name, coords
 public abstract class Feature {
-    protected Color color;
+    // protected Color color;
     protected String name;
     protected int xpos;
     protected int ypos;
@@ -18,18 +19,28 @@ public abstract class Feature {
     }
 
     // EFFECTS: displays info of feature
-    abstract void showInfo();
+    // abstract void showInfo();
 
     // EFFECTS: returns list of strings with various information meant to be
     // displayed
     public abstract List<String> getInfo();
 
     // EFFECTS: draws feature on selected map
-    abstract void drawFeature();
+    // abstract void drawFeature();
 
-    public Color getColor() {
-        return color;
+    public ArrayList<String> getPosList() {
+        ArrayList<String> info = new ArrayList<>();
+        info.add("Position: " + xpos + ", " + ypos);
+        return info;
     }
+
+    // public Color getColor() {
+    // return color;
+    // }
+
+    // public void setColor(Color color) {
+    // this.color = color;
+    // }
 
     public int getXpos() {
         return xpos;
@@ -37,18 +48,6 @@ public abstract class Feature {
 
     public int getYpos() {
         return ypos;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getRadius() {
-        return radius;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setXpos(int x) {
@@ -59,12 +58,19 @@ public abstract class Feature {
         this.ypos = y;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public String getName() {
+        return name;
     }
 
-    public void setRad(int rad) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int rad) {
         this.radius = rad;
     }
-
 }

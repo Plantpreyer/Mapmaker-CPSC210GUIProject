@@ -7,17 +7,18 @@ import java.util.List;
 // REQUIRES: Can only have one circular section
 public class TreeFeature extends MapObject {
     // FeatureSection tree;
-    
+
     public TreeFeature() {
         super("", 0, 0, 0);
-        // tree = new FeatureSection(0, 0, 0, 0);
-        // addSection(tree);
+    }
+
+    public TreeFeature(String name) {
+        super(name, 0, 0, 0);
     }
 
     public TreeFeature(String name, int x, int y, int radius, int height) {
         super(name, x, y, height);
-        // tree = new FeatureSection(0, 0, radius, height);
-        // addSection(tree);
+        this.radius = radius;
     }
 
     public String getType() {
@@ -32,26 +33,19 @@ public class TreeFeature extends MapObject {
     }
 
     // EFFECTS: shows info of tree, including name, height, coords
-    void showInfo() {
-        
-    }
+    // void showInfo() {
 
-    public int getHeight() {
-        return getHeight();
-    }
+    // }
 
     // MODIFIES: this
     // EFFECTS: replaces body with new one
     public void setBody(int radius, int height) {
-        // tree = new FeatureSection(0, 0, radius, height);
-        // clearBody();
-        // addSection(tree);
         this.radius = radius;
         this.height = height;
     }
 
     // EFFECTS: draws the tree as a green circle on the map
-    void drawFeature() {
-        
-    }
+    // void drawFeature() {
+
+    // }
 }
