@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.CustomMap;
 import model.feature.Building;
+import model.feature.MapPoint;
 import model.feature.Route;
 import model.feature.TreeFeature;
 
@@ -78,11 +80,22 @@ public class TestJsonReader extends JsonTest {
 
     @Test
     void testComplexMapList() {
-        jsonReader = new JsonReader("./data/testReaderSingleMapList.json");
+        jsonReader = new JsonReader("./data/testReaderComplexMapList.json");
         map1.addObject(building1);
         map2.addObject(building2);
         map2.addObject(tree1);
+
+        List<MapPoint> pointsList = new ArrayList<>();
+        pointsList.add(new MapPoint("p1", 1, 1));
+        pointsList.add(new MapPoint("p2", 3, 2));
+        pointsList.add(new MapPoint("p3", 5, 7));
+
+        route1.setPoints(pointsList);
+
         map2.addRoute(route1);
+
+        
+
         
         try {
             List<CustomMap> mapList = jsonReader.read();

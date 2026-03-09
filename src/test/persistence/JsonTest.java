@@ -21,8 +21,6 @@ public class JsonTest {
         
         checkObjects(expected, actual);
         checkRoutes(expected, actual);
-
-        assertEquals(expected.getRoutes(), actual.getRoutes());
     }
 
     protected void checkObjects(CustomMap expected, CustomMap actual) {
