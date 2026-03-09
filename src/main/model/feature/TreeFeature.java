@@ -3,6 +3,8 @@ package model.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 // Represents a tree
 // REQUIRES: Can only have one circular section
 public class TreeFeature extends MapObject {
@@ -48,4 +50,13 @@ public class TreeFeature extends MapObject {
     // void drawFeature() {
 
     // }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("type", "tree");
+        json.put("radius", radius);
+
+        return json;
+    }
 }

@@ -31,5 +31,4 @@ public class MapPoint extends Feature {
 
         return info;
     }
-
 }

@@ -2,6 +2,9 @@ package model.feature;
 
 import java.util.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 // Represents a route on the map with an ordered list of points
 public class Route extends Feature {
     List<MapPoint> points;
@@ -54,5 +57,25 @@ public class Route extends Feature {
             }
         }
         return info;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("points", pointsToJson());
+
+        return json;
+    }
+
+    // EFFECTS: returns points as json array
+    private JSONArray pointsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (MapPoint b : points) {
+            jsonArray.put(b.toJson());
+        }
+
+        return jsonArray;
     }
 }

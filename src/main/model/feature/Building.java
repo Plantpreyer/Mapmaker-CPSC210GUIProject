@@ -1,6 +1,9 @@
 package model.feature;
 
 import java.util.List;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 // Represents a building
@@ -18,10 +21,10 @@ public class Building extends MapObject {
         super(name, x, y, height);
     }
 
-    public Building(String name, int x, int y, int xDim, int yDim, int height) {
+    public Building(String name, int x, int y, int width, int length, int height) {
         super(name, x, y, height);
-        this.xDim = xDim;
-        this.yDim = yDim;
+        this.width = width;
+        this.length = length;
     }
 
     // EFFECTS: returns info of building, coords, max height
@@ -38,6 +41,16 @@ public class Building extends MapObject {
     // returns  a string representing the type of object (map / tree)
     public String getType() {
         return "building";
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("xDim", width);
+        json.put("yDim", length);
+        json.put("type", "building");
+        
+        return json;
     }
 
     // EFFECTS: displays info of building, including name, max height, coords

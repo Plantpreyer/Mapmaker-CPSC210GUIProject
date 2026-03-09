@@ -2,6 +2,7 @@ package model;
 
 import java.util.*;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import model.exceptions.InvalidInputException;
@@ -277,9 +278,34 @@ public class CustomMap implements Writable {
 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
         JSONObject json = new JSONObject();
-
+        json.put("name", name);
+        json.put("objects", objectsToJson());
+        json.put("routes", routesToJson());
+        
         return json;
     }
+
+    // EFFECTS: returns objects as json array
+    private JSONArray objectsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (MapObject b : objects) {
+            jsonArray.put(b.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns routes as json array
+    private JSONArray routesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Route b : routes) {
+            jsonArray.put(b.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }

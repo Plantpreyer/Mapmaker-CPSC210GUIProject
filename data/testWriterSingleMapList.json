@@ -1,1 +1,13 @@
-[{}]
+[{
+    "routes": [],
+    "objects": [{
+        "ypos": 2,
+        "xpos": 3,
+        "xDim": 6,
+        "yDim": 9,
+        "name": "buildingoo",
+        "type": "building",
+        "height": 10
+    }],
+    "name": "goo"
+}]

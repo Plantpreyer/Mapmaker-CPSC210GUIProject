@@ -25,7 +25,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens writer; throws FileNotFoundException if dest. file cant be opened
+    // EFFECTS: opens writer; throws FileNotFoundException if dest. file cant be
+    // opened
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destinationStr));
     }
@@ -34,7 +35,7 @@ public class JsonWriter {
     // EFFECTS: writes JSON MapMaker to file
     public void write(List<CustomMap> mapList) {
         JSONArray jsonArray = new JSONArray();
-        for(int i = 0; i < mapList.size(); i++) {
+        for (int i = 0; i < mapList.size(); i++) {
             JSONObject json = mapList.get(i).toJson();
             jsonArray.put(json);
         }

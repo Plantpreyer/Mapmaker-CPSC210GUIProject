@@ -68,7 +68,8 @@ public class ConstructorClass {
         return new MapPoint(pointName, newX, newY);
     }
 
-    public Building constructBuilding(String name, int xpos, int ypos, int height, Scanner input) throws InvalidInputException {
+    public Building constructBuilding(String name, int xpos, int ypos, int height, Scanner input)
+            throws InvalidInputException {
         int newWidth;
         int newLength;
 

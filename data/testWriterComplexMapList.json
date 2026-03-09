@@ -1,4 +1,57 @@
 [
-    {},
-    {}
+    {
+        "routes": [],
+        "objects": [{
+            "ypos": 2,
+            "xpos": 3,
+            "xDim": 6,
+            "yDim": 9,
+            "name": "buildingoo",
+            "type": "building",
+            "height": 10
+        }],
+        "name": "goo"
+    },
+    {
+        "routes": [{
+            "name": "router",
+            "points": [
+                {
+                    "ypos": 1,
+                    "xpos": 1,
+                    "name": "p1"
+                },
+                {
+                    "ypos": 2,
+                    "xpos": 3,
+                    "name": "p2"
+                },
+                {
+                    "ypos": 7,
+                    "xpos": 5,
+                    "name": "p3"
+                }
+            ]
+        }],
+        "objects": [
+            {
+                "ypos": 1,
+                "xpos": 1,
+                "xDim": 1,
+                "yDim": 1,
+                "name": "b2",
+                "type": "building",
+                "height": 1
+            },
+            {
+                "ypos": 0,
+                "xpos": 0,
+                "name": "Groot",
+                "type": "tree",
+                "radius": 4,
+                "height": 4
+            }
+        ],
+        "name": "map 2"
+    }
 ]

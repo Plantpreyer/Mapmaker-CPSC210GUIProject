@@ -4,8 +4,12 @@ package model.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents a location on the map with a name, coords
-public abstract class Feature {
+public abstract class Feature implements Writable {
     // protected Color color;
     protected String name;
     protected int xpos;
@@ -27,6 +31,16 @@ public abstract class Feature {
 
     // EFFECTS: draws feature on selected map
     // abstract void drawFeature();
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("xpos", xpos);
+        json.put("ypos", ypos);
+        
+        return json;
+    }
 
     public ArrayList<String> getPosList() {
         ArrayList<String> info = new ArrayList<>();
