@@ -32,7 +32,7 @@ public class JsonReader {
 
     // EFFECTS: reads List<CustomMap> from file, returns it
     // throws IOException if error
-    public List<CustomMap> read() throws IOException {
+    public List<CustomMap> read() throws IOException, ObjectClassificationException {
         String jsonData = readFile(fileSource);
         JSONArray jsonArray = new JSONArray(jsonData);
         return parseMapList(jsonArray);
@@ -50,7 +50,7 @@ public class JsonReader {
     }
 
     // EFFECTS: parses list of maps from JSONArray and returns it
-    private List<CustomMap> parseMapList(JSONArray jsonArray) {
+    private List<CustomMap> parseMapList(JSONArray jsonArray) throws ObjectClassificationException {
         List<CustomMap> mapList = new ArrayList<>();
         addMaps(mapList, jsonArray);
 
@@ -59,8 +59,8 @@ public class JsonReader {
 
     // MODIFIES: mapList
     // EFFECTS: parses maps from JSONArray and adds them to list
-    private void addMaps(List<CustomMap> mapList, JSONArray jsonMapList) {
-        for(Object b : jsonMapList) {
+    private void addMaps(List<CustomMap> mapList, JSONArray jsonMapList) throws ObjectClassificationException {
+        for (Object b : jsonMapList) {
             JSONObject nextMap = (JSONObject) b;
             addMap(mapList, nextMap);
         }
@@ -68,7 +68,7 @@ public class JsonReader {
 
     // MODIFIES: mapList
     // EFFECTS: parses map from JSONObject and adds it to list
-    private void addMap(List<CustomMap> mapList, JSONObject jsonObject) {
+    private void addMap(List<CustomMap> mapList, JSONObject jsonObject) throws ObjectClassificationException {
         String name = jsonObject.getString("name");
         CustomMap tempMap = new CustomMap(name);
         addObjects(tempMap, jsonObject.getJSONArray("objects"));
@@ -79,7 +79,7 @@ public class JsonReader {
 
     // MODIFIES: map
     // EFFECTS: parses MapObjects from JSONArray and adds it to map
-    private void addObjects(CustomMap map, JSONArray jsonObjectList) {
+    private void addObjects(CustomMap map, JSONArray jsonObjectList) throws ObjectClassificationException {
         for (Object b : jsonObjectList) {
             JSONObject mapObject = (JSONObject) b;
             addObject(map, mapObject);
@@ -88,19 +88,16 @@ public class JsonReader {
     }
 
     // EFFECTS: parses object from JSONObject and adds it to map
-    private void addObject(CustomMap map, JSONObject jsonObject) {
+    private void addObject(CustomMap map, JSONObject jsonObject) throws ObjectClassificationException {
         String name = jsonObject.getString("name");
         String type = jsonObject.getString("type");
         int xpos = jsonObject.getInt("xpos");
         int ypos = jsonObject.getInt("ypos");
         int height = jsonObject.getInt("height");
         MapObject mapObject;
-        try {
-            mapObject = parseMapObjectType(name, type, xpos, ypos, height, jsonObject);
-            map.addObject(mapObject);
-        } catch (ObjectClassificationException e) {
-            System.out.println("Couldn't classify object \'" + name + "\'");
-        }
+        mapObject = parseMapObjectType(name, type, xpos, ypos, height, jsonObject);
+        map.addObject(mapObject);
+
     }
 
     private MapObject parseMapObjectType(String name, String type, int xpos, int ypos, int height,

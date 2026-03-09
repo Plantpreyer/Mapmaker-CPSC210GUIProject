@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.CustomMap;
+import model.exceptions.ObjectClassificationException;
 import model.feature.Building;
 import model.feature.MapPoint;
 import model.feature.Route;
@@ -48,6 +49,8 @@ public class TestJsonReader extends JsonTest {
             fail("should have thrown exception");
         } catch (IOException e) {
             // expected
+        } catch (Exception e) {
+            fail("should not have thrown exception");
         }
     }
 
@@ -59,7 +62,7 @@ public class TestJsonReader extends JsonTest {
         try {
             List<CustomMap> mapList = jsonReader.read();
             assertTrue(mapList.isEmpty());
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("should not have thrown exception");
         }
     }
@@ -73,7 +76,7 @@ public class TestJsonReader extends JsonTest {
             List<CustomMap> mapList = jsonReader.read();
             assertEquals(1, mapList.size());
             checkMap(map1, mapList.get(0));
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("should not have thrown exception");
         }
     }
@@ -93,17 +96,28 @@ public class TestJsonReader extends JsonTest {
         route1.setPoints(pointsList);
 
         map2.addRoute(route1);
-
-        
-
         
         try {
             List<CustomMap> mapList = jsonReader.read();
             assertEquals(2, mapList.size());
             checkMap(map1, mapList.get(0));
             checkMap(map2, mapList.get(1));
+        } catch (Exception e) {
+            fail("should not have thrown exception");
+        }
+    }
+
+    @Test
+    void testBuggyMap() {
+        jsonReader = new JsonReader("./data/testReaderBuggyMapList.json");
+
+        try {
+            jsonReader.read();
+            fail();
         } catch (IOException e) {
             fail("should not have thrown exception");
+        } catch (ObjectClassificationException e) {
+            // expected;
         }
     }
 }
