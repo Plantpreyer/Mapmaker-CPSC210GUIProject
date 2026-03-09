@@ -57,12 +57,12 @@ public class TestJsonWriter extends JsonTest {
     @Test
     void testEmptyList() {
         try {
-            jsonWriter = new JsonWriter("./data/testWriterEmptyMapList.json");
+            jsonWriter = new JsonWriter("./data/test/WriterEmptyMapList.json");
             jsonWriter.open();
             jsonWriter.write(new ArrayList<>());
             jsonWriter.close();
 
-            jsonReader = new JsonReader("./data/testWriterEmptyMapList.json");
+            jsonReader = new JsonReader("./data/test/WriterEmptyMapList.json");
             List<CustomMap> mapList = jsonReader.read();
             assertTrue(mapList.isEmpty());
         } catch (Exception e) {
@@ -77,12 +77,12 @@ public class TestJsonWriter extends JsonTest {
             List<CustomMap> mapList = new ArrayList<>();
             mapList.add(map1);
 
-            jsonWriter = new JsonWriter("./data/testWriterSingleMapList.json");
+            jsonWriter = new JsonWriter("./data/test/WriterSingleMapList.json");
             jsonWriter.open();
             jsonWriter.write(mapList);
             jsonWriter.close();
 
-            jsonReader = new JsonReader("./data/testWriterSingleMapList.json");
+            jsonReader = new JsonReader("./data/test/WriterSingleMapList.json");
             List<CustomMap> newMapList = jsonReader.read();
 
             assertEquals(mapList.size(), newMapList.size());
@@ -119,12 +119,12 @@ public class TestJsonWriter extends JsonTest {
         try {
             List<CustomMap> mapList = setUpComplex();
 
-            jsonWriter = new JsonWriter("./data/testWriterComplexMapList.json");
+            jsonWriter = new JsonWriter("./data/test/WriterComplexMapList.json");
             jsonWriter.open();
             jsonWriter.write(mapList);
             jsonWriter.close();
 
-            jsonReader = new JsonReader("./data/testWriterComplexMapList.json");
+            jsonReader = new JsonReader("./data/test/WriterComplexMapList.json");
             List<CustomMap> newMapList = jsonReader.read();
 
             assertEquals(mapList.size(), newMapList.size());

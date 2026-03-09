@@ -1,13 +1,18 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
+
+import org.json.JSONException;
 
 import model.CustomMap;
 import model.exceptions.InvalidInputException;
 import model.exceptions.ObjectClassificationException;
 import model.feature.MapObject;
 import model.feature.Route;
-
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 // Map maker / manager application
@@ -22,6 +27,8 @@ public class MapMaker {
     private boolean quit;
     private int spamCount;
     private ConstructorClass cons;
+
+    private static final String JSON_LOCATION = "./data/MapData.json";
 
     // EFFECTS: runs application
     public MapMaker() {
@@ -73,6 +80,7 @@ public class MapMaker {
 
         System.out.println("\nSelect from:");
         System.out.println("\tn -> New Map");
+        System.out.println("\tl -> Load Saved Maps");
         if (canCycleSelect()) {
             System.out.println("\ta -> Previous Map Slot");
             System.out.println("\td -> Next Map Slot");
@@ -80,6 +88,7 @@ public class MapMaker {
         if (!maps.isEmpty()) {
             System.out.println("\tm -> Manage Map");
             System.out.println("\tf -> Map Info");
+            System.out.println("\ts -> Save maps");
         }
         System.out.println("\tq -> quit");
     }
@@ -100,6 +109,19 @@ public class MapMaker {
                 break;
             case "f":
                 printMapInfo();
+                break;
+            default:
+                handleInputPt2(cmdString);
+        }
+    }
+
+    private void handleInputPt2(String cmdStr) throws InvalidInputException {
+        switch (cmdStr) {
+            case "s":
+                saveMapsState();
+                break;
+            case "l":
+                loadMapsState();
                 break;
             case "a":
                 cycleBackward();
@@ -485,6 +507,59 @@ public class MapMaker {
             throw new InvalidInputException();
         }
         return type;
+    }
+
+    // EFFECTS: writes map information to file
+    private void saveMapsState() throws InvalidInputException {
+        if (maps.isEmpty()) {
+            throw new InvalidInputException();
+        }
+
+        System.out.println("Are you sure you want to save the current maps to the file? (y/n)");
+        if (!takeYesNo()) {
+            System.out.println("Cancelled.");
+            return;
+        }
+
+        try {
+            JsonWriter jsonWriter = new JsonWriter(JSON_LOCATION);
+            jsonWriter.open();
+            jsonWriter.write(maps);
+            jsonWriter.close();
+            System.out.println("Saved maps to " + JSON_LOCATION);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_LOCATION);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads map information from file
+    private void loadMapsState() throws InvalidInputException {
+        System.out.println("Are you sure you want to load the saved maps from file, replacing the current maps? (y/n)");
+        if (!takeYesNo()) {
+            System.out.println("Cancelled.");
+            return;
+        }
+
+        try {
+            JsonReader jsonReader = new JsonReader(JSON_LOCATION);
+            maps = jsonReader.read();
+            System.out.println("Loaded maps from " + JSON_LOCATION);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_LOCATION);
+        } catch (ObjectClassificationException e) {
+            System.out.println("Unable to determine object type");
+        } catch (JSONException e) {
+            try {
+                JsonWriter jsonWriter = new JsonWriter(JSON_LOCATION);
+                jsonWriter.open();
+                jsonWriter.write(new ArrayList<>());
+                jsonWriter.close();
+            } catch (FileNotFoundException e2) {
+                System.out.println("Unable to write to file: " + JSON_LOCATION);
+            }
+
+        }
     }
 
     // EFFECTS: returns a subclass of mapobject depending on string passed

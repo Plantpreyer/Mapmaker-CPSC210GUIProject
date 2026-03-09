@@ -56,7 +56,7 @@ public class TestJsonReader extends JsonTest {
 
     @Test
     void testEmptyList() {
-        jsonReader = new JsonReader("./data/testReaderEmptyMapList.json");
+        jsonReader = new JsonReader("./data/test/ReaderEmptyMapList.json");
         try {
             List<CustomMap> mapList = jsonReader.read();
             assertTrue(mapList.isEmpty());
@@ -67,7 +67,7 @@ public class TestJsonReader extends JsonTest {
 
     @Test
     void testSingleMapList() {
-        jsonReader = new JsonReader("./data/testReaderSingleMapList.json");
+        jsonReader = new JsonReader("./data/test/ReaderSingleMapList.json");
         map1.addObject(building1);
 
         try {
@@ -81,7 +81,7 @@ public class TestJsonReader extends JsonTest {
 
     @Test
     void testComplexMapList() {
-        jsonReader = new JsonReader("./data/testReaderComplexMapList.json");
+        jsonReader = new JsonReader("./data/test/ReaderComplexMapList.json");
         map1.addObject(building1);
         map2.addObject(building2);
         map2.addObject(tree1);
@@ -107,7 +107,7 @@ public class TestJsonReader extends JsonTest {
 
     @Test
     void testBuggyMap() {
-        jsonReader = new JsonReader("./data/testReaderBuggyMapList.json");
+        jsonReader = new JsonReader("./data/test/ReaderBuggyMapList.json");
 
         try {
             jsonReader.read();
