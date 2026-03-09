@@ -12,6 +12,10 @@ import model.feature.Building;
 import model.feature.MapObject;
 import model.feature.TreeFeature;
 
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestMapObject {
     MapObject mo1;
     MapObject mo11;

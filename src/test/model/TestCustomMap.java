@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import exceptions.InvalidInputException;
+import model.exceptions.InvalidInputException;
 import model.feature.Building;
 import model.feature.MapPoint;
 import model.feature.Route;
@@ -17,6 +17,10 @@ import model.feature.TreeFeature;
 
 // import model.feature.MapObject;
 
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestCustomMap {
     CustomMap m1;
     Route r1;

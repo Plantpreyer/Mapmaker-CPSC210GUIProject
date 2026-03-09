@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import model.feature.Building;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestBuilding {
     Building b1;
 

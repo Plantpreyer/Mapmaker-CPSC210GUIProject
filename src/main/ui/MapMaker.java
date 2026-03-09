@@ -2,14 +2,17 @@ package ui;
 
 import java.util.*;
 
-import exceptions.InvalidInputException;
-import exceptions.ObjectClassificationException;
 import model.CustomMap;
+import model.exceptions.InvalidInputException;
+import model.exceptions.ObjectClassificationException;
 import model.feature.MapObject;
 import model.feature.Route;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 // Map maker / manager application
 // Has a list of map objects that you can select
+@ExcludeFromJacocoGeneratedReport
 public class MapMaker {
     private List<CustomMap> maps;
     private int selectIndex;

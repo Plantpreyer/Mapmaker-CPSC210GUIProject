@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import exceptions.InvalidInputException;
+import model.exceptions.InvalidInputException;
 import model.feature.Building;
 import model.feature.MapPoint;
 import model.feature.Route;
 import model.feature.TreeFeature;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 // Class that runs methods to ask for user input and create features on a map
+@ExcludeFromJacocoGeneratedReport
 public class ConstructorClass {
 
     public ConstructorClass() {

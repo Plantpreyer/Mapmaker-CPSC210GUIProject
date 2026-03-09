@@ -1,4 +1,4 @@
-package exceptions;
+package model.exceptions;
 
 public class InvalidInputException extends MapMakerException {
     private static final String exceptionMsg = "Input couldn't be interpreted.";
@@ -7,7 +7,7 @@ public class InvalidInputException extends MapMakerException {
         super(exceptionMsg);
     }
 
-    public InvalidInputException(String msg) {
-        super(msg);
-    }
+    // public InvalidInputException(String msg) {
+    //     super(msg);
+    // }
 }

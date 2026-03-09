@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import model.feature.MapPoint;
 import model.feature.Route;
 
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestRoute {
     Route r1;
     List<MapPoint> pointsList;

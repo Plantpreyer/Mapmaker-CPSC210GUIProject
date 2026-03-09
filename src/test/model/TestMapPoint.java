@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import model.feature.MapPoint;
 
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestMapPoint {
     MapPoint mp1;
 

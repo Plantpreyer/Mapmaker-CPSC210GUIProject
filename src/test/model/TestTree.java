@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import model.feature.TreeFeature;
 
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestTree {
     TreeFeature t1;
 

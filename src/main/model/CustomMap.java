@@ -2,7 +2,7 @@ package model;
 
 import java.util.*;
 
-import exceptions.InvalidInputException;
+import model.exceptions.InvalidInputException;
 import model.feature.MapObject;
 // import model.feature.Marker;
 import model.feature.Route;

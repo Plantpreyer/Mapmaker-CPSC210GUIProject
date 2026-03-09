@@ -10,6 +10,9 @@ import model.feature.Route;
 import model.feature.TreeFeature;
 
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class TestFeature {
     Feature tree;
     Feature route;

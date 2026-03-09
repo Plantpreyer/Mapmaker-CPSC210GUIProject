@@ -1,4 +1,4 @@
-package exceptions;
+package model.exceptions;
 
 public class ObjectClassificationException extends MapMakerException {
     private static final String exceptionMsg = "Object type couldn't be interpreted";
@@ -7,7 +7,7 @@ public class ObjectClassificationException extends MapMakerException {
         super(exceptionMsg);
     }
 
-    public ObjectClassificationException(String msg) {
-        super(msg);
-    }
+    // public ObjectClassificationException(String msg) {
+    //     super(msg);
+    // }
 }
