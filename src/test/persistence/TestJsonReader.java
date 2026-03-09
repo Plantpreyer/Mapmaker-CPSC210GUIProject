@@ -57,8 +57,6 @@ public class TestJsonReader extends JsonTest {
     @Test
     void testEmptyList() {
         jsonReader = new JsonReader("./data/testReaderEmptyMapList.json");
-        map1 = new CustomMap("goo");
-        map1.addObject(null);
         try {
             List<CustomMap> mapList = jsonReader.read();
             assertTrue(mapList.isEmpty());

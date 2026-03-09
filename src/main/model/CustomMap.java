@@ -278,6 +278,8 @@ public class CustomMap implements Writable {
     @Override
     public JSONObject toJson() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+
+        return json;
     }
 }
