@@ -70,7 +70,7 @@ public class TestJsonReader extends JsonTest {
         try {
             List<CustomMap> mapList = jsonReader.read();
             assertEquals(1, mapList.size());
-            assertEquals(map1, mapList.get(0));
+            checkMap(map1, mapList.get(0));
         } catch (IOException e) {
             fail("should not have thrown exception");
         }
@@ -87,8 +87,8 @@ public class TestJsonReader extends JsonTest {
         try {
             List<CustomMap> mapList = jsonReader.read();
             assertEquals(2, mapList.size());
-            assertEquals(map1, mapList.get(0));
-            assertEquals(map2, mapList.get(1));
+            checkMap(map1, mapList.get(0));
+            checkMap(map2, mapList.get(1));
         } catch (IOException e) {
             fail("should not have thrown exception");
         }
