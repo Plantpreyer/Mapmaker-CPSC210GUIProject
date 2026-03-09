@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import model.CustomMap;
 
@@ -32,7 +33,12 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: writes JSON MapMaker to file
     public void write(List<CustomMap> mapList) {
-        
+        JSONArray jsonArray = new JSONArray();
+        for(int i = 0; i < mapList.size(); i++) {
+            JSONObject json = mapList.get(i).toJson();
+            jsonArray.put(json);
+        }
+        saveToFile(jsonArray.toString(TAB_LENGTH));
     }
 
     // MODIFIES: this
