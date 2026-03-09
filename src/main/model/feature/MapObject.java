@@ -1,7 +1,5 @@
 package model.feature;
 
-import persistence.Writable;
-
 // Represents a category of features with dimensions and height
 public abstract class MapObject extends Feature {
     // private List<FeatureSection> body;

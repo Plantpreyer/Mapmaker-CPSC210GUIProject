@@ -1,4 +1,4 @@
-package model;
+package model.feature;
 
 import java.util.List;
 
@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import model.feature.TreeFeature;
-
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 

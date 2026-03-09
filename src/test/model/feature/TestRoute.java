@@ -1,4 +1,4 @@
-package model;
+package model.feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import model.feature.MapPoint;
-import model.feature.Route;
 
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;

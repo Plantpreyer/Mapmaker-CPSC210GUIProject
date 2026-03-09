@@ -1,4 +1,4 @@
-package model;
+package model.exceptions;
 
 import static org.junit.Assert.fail;
 
@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
-import model.exceptions.InvalidInputException;
-import model.exceptions.ObjectClassificationException;
 
 @ExcludeFromJacocoGeneratedReport
 public class TestExceptions {

@@ -1,4 +1,4 @@
-package model;
+package model.feature;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,11 +7,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import model.feature.Building;
-import model.feature.MapObject;
-import model.feature.TreeFeature;
-
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
@@ -31,9 +26,8 @@ public class TestMapObject {
     @Test
     public void testGetPosList() {
         List<String> l1 = mo1.getPosList();
-        List<String> l2 = new ArrayList<>() {{
-            add("Position: 0, 0");
-        }};
+        List<String> l2 = new ArrayList<>();
+        l2.add("Position: 0, 0");
 
         assertEquals(l2, l1);
     }
@@ -58,5 +52,5 @@ public class TestMapObject {
         assertEquals(4, mo1.getXdim());
         assertEquals(4, mo1.getYdim());
     }
-    
+
 }

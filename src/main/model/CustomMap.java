@@ -2,6 +2,8 @@ package model;
 
 import java.util.*;
 
+import org.json.JSONObject;
+
 import model.exceptions.InvalidInputException;
 import model.feature.MapObject;
 // import model.feature.Marker;
@@ -271,5 +273,11 @@ public class CustomMap implements Writable {
 
     public List<MapObject> getObjects() {
         return objects;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
 }
