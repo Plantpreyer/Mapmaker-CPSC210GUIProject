@@ -52,6 +52,7 @@ public class ConstructorClass {
         return new Route(name, newPoints);
     }
 
+    // EFFECTS: returns a MapPoint based on user input and passed parameters
     public MapPoint constructPoint(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
         int newX;
         int newY;
@@ -68,6 +69,7 @@ public class ConstructorClass {
         return new MapPoint(pointName, newX, newY);
     }
 
+    // EFFECTS: returns a building based on input and parameters
     public Building constructBuilding(String name, int xpos, int ypos, int height, Scanner input)
             throws InvalidInputException {
         int newWidth;
@@ -85,6 +87,7 @@ public class ConstructorClass {
         return new Building(name, xpos, ypos, newWidth, newLength, height);
     }
 
+    // EFFECTS returns a tree based on input and parameters
     public TreeFeature constructTree(String name, int xpos, int ypos, Scanner input) throws InvalidInputException {
         int newRad;
         int newHeight;

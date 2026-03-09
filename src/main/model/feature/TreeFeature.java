@@ -27,6 +27,7 @@ public class TreeFeature extends MapObject {
         return "tree";
     }
 
+    // EFECTS: returns info on tree as a list of strings
     public List<String> getInfo() {
         ArrayList<String> info = getPosList();
         info.add("Height: " + getHeight());

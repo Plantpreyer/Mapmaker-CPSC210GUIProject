@@ -237,6 +237,7 @@ public class CustomMap implements Writable {
         return info;
     }
 
+    // EFFECTS: returns info about the points on a route as a list of strings
     public List<String> routesInfo() {
         ArrayList<String> info = new ArrayList<>();
         for (int i = 0; i < routes.size(); i++) {
@@ -282,7 +283,7 @@ public class CustomMap implements Writable {
         json.put("name", name);
         json.put("objects", objectsToJson());
         json.put("routes", routesToJson());
-        
+
         return json;
     }
 

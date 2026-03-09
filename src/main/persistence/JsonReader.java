@@ -100,6 +100,8 @@ public class JsonReader {
 
     }
 
+    // EFFECTS: returns a mapobject with type depending on String type and fields
+    // depending on parameters
     private MapObject parseMapObjectType(String name, String type, int xpos, int ypos, int height,
             JSONObject jsonObject) throws ObjectClassificationException {
         MapObject mapObject;

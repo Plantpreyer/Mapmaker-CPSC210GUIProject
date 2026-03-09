@@ -115,6 +115,8 @@ public class MapMaker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: see above method
     private void handleInputPt2(String cmdStr) throws InvalidInputException {
         switch (cmdStr) {
             case "s":
@@ -168,6 +170,7 @@ public class MapMaker {
         selectedMap = maps.get(selectIndex);
     }
 
+    // MODIFIES, EFFECTS: see above
     private void cycleBackward() throws InvalidInputException {
         if (!canCycleSelect()) {
             throw new InvalidInputException();
@@ -380,6 +383,7 @@ public class MapMaker {
         }
     }
 
+    // EFFECTS: prints a menu for when user is editing an object
     private void printEditObjectMenu() {
         System.out.println("Edit name (n)");
         System.out.println("Edit position (a)");
@@ -388,6 +392,9 @@ public class MapMaker {
         System.out.println("Delete (d)");
     }
 
+    // MODIFIES: this
+    // EFFECTS: asks user for input and will do different edits depending on input
+    // to selectObject
     private void handleEditObject(MapObject selectObject) throws InvalidInputException, ObjectClassificationException {
         printEditObjectMenu();
         cmdString = takeInput();
@@ -415,6 +422,8 @@ public class MapMaker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: asks user for input and edits selectObject
     private void editObjectCoords(MapObject selectObject)
             throws InvalidInputException {
         try {
@@ -427,6 +436,8 @@ public class MapMaker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: prompts user for input and appropriately changes passed object
     private void editObjectDimensions(MapObject selectObject)
             throws ObjectClassificationException, InvalidInputException {
         try {
@@ -451,6 +462,8 @@ public class MapMaker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets object height to user input
     private void editObjectHeight(MapObject selectObject)
             throws InvalidInputException {
         try {
