@@ -18,7 +18,7 @@ import model.feature.TreeFeature;
 public class JsonTest {
     protected void checkMap(CustomMap expected, CustomMap actual) {
         assertEquals(expected.getName(), actual.getName());
-        
+
         checkObjects(expected, actual);
         checkRoutes(expected, actual);
     }
@@ -27,7 +27,7 @@ public class JsonTest {
         List<MapObject> objectsExpected = expected.getObjects();
         List<MapObject> objectsActual = actual.getObjects();
 
-        for(int i = 0; i < objectsExpected.size(); i++) {
+        for (int i = 0; i < objectsExpected.size(); i++) {
             MapObject moExpected = objectsExpected.get(i);
             MapObject moActual = objectsActual.get(i);
 
@@ -62,7 +62,7 @@ public class JsonTest {
         List<Route> routesExpected = expected.getRoutes();
         List<Route> routesActual = actual.getRoutes();
 
-        for(int i = 0; i < routesExpected.size(); i++) {
+        for (int i = 0; i < routesExpected.size(); i++) {
             Route routeExpected = routesExpected.get(i);
             Route routeActual = routesActual.get(i);
 
@@ -77,7 +77,7 @@ public class JsonTest {
     }
 
     protected void checkInfo(List<String> expected, List<String> actual) {
-        for(int i = 0; i < expected.size(); i++) {
+        for (int i = 0; i < expected.size(); i++) {
             assertEquals(expected.get(i), actual.get(i));
         }
     }

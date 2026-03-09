@@ -17,8 +17,6 @@ import model.feature.Building;
 import model.feature.MapPoint;
 import model.feature.Route;
 import model.feature.TreeFeature;
-import persistence.JsonReader;
-import persistence.JsonWriter;
 
 // modelled from sample project
 

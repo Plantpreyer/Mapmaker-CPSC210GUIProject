@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 @ExcludeFromJacocoGeneratedReport
@@ -29,7 +28,7 @@ public class TestFeature {
         tree.setXpos(2);
         assertEquals(2, tree.getXpos());
         tree.setYpos(1);
-         assertEquals(1, tree.getYpos());
+        assertEquals(1, tree.getYpos());
 
         tree.setRadius(3);
         assertEquals(3, tree.getRadius());

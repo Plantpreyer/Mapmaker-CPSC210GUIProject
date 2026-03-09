@@ -21,30 +21,30 @@ public class TestBuilding {
     @Test
     void testCons() {
         b1 = new Building();
-        assertEquals("" , b1.getName());
-        assertEquals(0 , b1.getXpos());
-        assertEquals(0 , b1.getYpos());
-        assertEquals(0 , b1.getHeight());
+        assertEquals("", b1.getName());
+        assertEquals(0, b1.getXpos());
+        assertEquals(0, b1.getYpos());
+        assertEquals(0, b1.getHeight());
 
         b1 = new Building("ggggg");
-        assertEquals("ggggg" , b1.getName());
-        assertEquals(0 , b1.getXpos());
-        assertEquals(0 , b1.getYpos());
-        assertEquals(0 , b1.getHeight());
+        assertEquals("ggggg", b1.getName());
+        assertEquals(0, b1.getXpos());
+        assertEquals(0, b1.getYpos());
+        assertEquals(0, b1.getHeight());
 
         b1 = new Building("1", 1, 1, 1);
-        assertEquals("1" , b1.getName());
-        assertEquals(1 , b1.getXpos());
-        assertEquals(1 , b1.getYpos());
-        assertEquals(1 , b1.getHeight());
+        assertEquals("1", b1.getName());
+        assertEquals(1, b1.getXpos());
+        assertEquals(1, b1.getYpos());
+        assertEquals(1, b1.getHeight());
 
         b1 = new Building("1", 5, 5, 5, 5, 5);
-        assertEquals("1" , b1.getName());
-        assertEquals(5 , b1.getXpos());
-        assertEquals(5 , b1.getYpos());
-        assertEquals(5 , b1.getXdim());
-        assertEquals(5 , b1.getYdim());
-        assertEquals(5 , b1.getHeight());
+        assertEquals("1", b1.getName());
+        assertEquals(5, b1.getXpos());
+        assertEquals(5, b1.getYpos());
+        assertEquals(5, b1.getXdim());
+        assertEquals(5, b1.getYdim());
+        assertEquals(5, b1.getHeight());
     }
 
     @Test
