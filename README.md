@@ -13,3 +13,7 @@ My personal project will be a map software where users can create their own maps
 - As a user, I want to be able to view all trails or physical features on a map
 - As a user, I want to be able to zoom in and zoom out on the map
 - As a user, I want to be able to click on an object and see features of the object (eg. height, name)
+
+Phase 2:
+- As a user, I want to be able to save a map to file (optionally)
+- As a user, I want to be able to load a map from file (optionally)
