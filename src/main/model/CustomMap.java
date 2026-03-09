@@ -6,12 +6,13 @@ import model.exceptions.InvalidInputException;
 import model.feature.MapObject;
 // import model.feature.Marker;
 import model.feature.Route;
+import persistence.Writable;
 
 // REQUIRES: viewTopLeft not higher or to the left of 0,0
 //           viewBotRight not higher or to the right of 192, 192
 // represents a customizable map with buildings, roads, trees, routes, and markers
 // map has a name, and two points representing the view user has on the map
-public class CustomMap {
+public class CustomMap implements Writable {
     protected String name;
     protected List<MapObject> objects;
     // protected List<Marker> markers;
