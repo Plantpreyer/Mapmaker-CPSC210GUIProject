@@ -309,4 +309,10 @@ public class CustomMap implements Writable {
         return jsonArray;
     }
 
+    // EFFECTS: overrides tostring, returns name
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

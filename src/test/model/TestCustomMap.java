@@ -48,6 +48,11 @@ public class TestCustomMap {
     }
 
     @Test
+    void testToString() {
+        assertEquals("Test map", m1.toString());
+    }
+
+    @Test
     void testFind() {
         try {
             assertEquals(r1, m1.findRoute("route 1"));

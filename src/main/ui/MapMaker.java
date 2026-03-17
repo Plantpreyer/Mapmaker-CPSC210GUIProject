@@ -3,6 +3,17 @@ package ui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import org.json.JSONException;
 
@@ -18,7 +29,25 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 // Map maker / manager application
 // Has a list of map objects that you can select
 @ExcludeFromJacocoGeneratedReport
-public class MapMaker {
+public class MapMaker extends JFrame implements ListSelectionListener {
+
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 720;
+
+    private JList<CustomMap> mapsJList;
+    private DefaultListModel<CustomMap> mapsListModel;
+    JPanel infoPanel;
+    JPanel listPanel;
+    JPanel buttonPanel;
+    JButton newMapButton;
+    JButton loadMapsButton;
+    JButton manageMapButton;
+    JButton mapInfoButton;
+    JButton saveMapsButton;
+    // JButton exitButton;
+
+    private static final Border BLACKLINE_BORDER = BorderFactory.createLineBorder(Color.black);
+
     private List<CustomMap> maps;
     private int selectIndex;
     private CustomMap selectedMap;
@@ -32,14 +61,189 @@ public class MapMaker {
 
     // EFFECTS: runs application
     public MapMaker() {
+        super("Map Maker");
+        initializeFields();
+        initializeGraphics();
+
+        runMapMaker();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes the fields
+    private void initializeFields() {
         spamCount = 0;
         selectIndex = 0;
         maps = new ArrayList<>();
         cmdString = "";
         quit = false;
         cons = new ConstructorClass();
+    }
 
-        runMapMaker();
+    // MODIFIES: this
+    // EFFECTS: draws the JFrame window where this DrawingEditor will operate, and
+    // populates the tools to be used
+    // to manipulate this drawing
+    private void initializeGraphics() {
+        ImageIcon icon = new ImageIcon("./images/icon.png");
+        setIconImage(icon.getImage());
+        setLayout(new BorderLayout());
+
+        setupListPanel();
+        setupInfoPanel();
+        setupButtonPanel();
+
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates list panel
+    private void setupListPanel() {
+
+        listPanel = new JPanel();
+        listPanel.setLayout(new BorderLayout());
+
+        mapsListModel = new DefaultListModel<>();
+        mapsListModel.addAll(maps);
+
+        // Create the list and put it in a scroll pane.
+        mapsJList = new JList<CustomMap>(mapsListModel);
+        mapsJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        mapsJList.setSelectedIndex(0);
+        mapsJList.addListSelectionListener(this);
+
+        JScrollPane mapsScrollPane = new JScrollPane(mapsJList);
+
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(
+                BLACKLINE_BORDER, "MAPS");
+        title.setTitleJustification(TitledBorder.CENTER);
+        listPanel.setBorder(title);
+
+        listPanel.add(mapsScrollPane, BorderLayout.CENTER);
+
+        add(listPanel, BorderLayout.CENTER);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: updates list panel
+    private void updateListPanel() {
+        mapsListModel = new DefaultListModel<>();
+        mapsListModel.addAll(maps);
+
+        mapsJList.setModel(mapsListModel);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates info panel from current fields
+    private void setupInfoPanel() {
+
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new BorderLayout());
+        infoPanel.setPreferredSize(new Dimension(320, 0));
+
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(
+                BLACKLINE_BORDER, "INFO");
+        title.setTitleJustification(TitledBorder.CENTER);
+        infoPanel.setBorder(title);
+
+        add(infoPanel, BorderLayout.EAST);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates button panel with interactions
+    private void setupButtonPanel() {
+        buttonPanel = new JPanel();
+        buttonPanel.setPreferredSize(new Dimension(0, 240));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+
+        setupButtons();
+
+        addAButton(newMapButton, buttonPanel);
+        addAButton(loadMapsButton, buttonPanel);
+        addAButton(manageMapButton, buttonPanel);
+        addAButton(mapInfoButton, buttonPanel);
+        addAButton(saveMapsButton, buttonPanel);
+        // addAButton(exitButton, buttonPanel);
+
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(
+                BLACKLINE_BORDER, "SELECT FROM: ");
+        title.setTitleJustification(TitledBorder.CENTER);
+        buttonPanel.setBorder(title);
+
+        infoPanel.add(buttonPanel, BorderLayout.SOUTH);
+        onMapSelected(false);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: names buttons
+    private void setupButtons() {
+        newMapButton = new JButton("New Map");
+        newMapButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedName = JOptionPane.showInputDialog(null, "Enter Name: ", "New Map: ", JOptionPane.QUESTION_MESSAGE);
+                if (selectedName != null && !selectedName.equals("")) {
+                    createMap(selectedName);
+                    displayMenu();
+                }
+            }
+        });
+        loadMapsButton = new JButton("Load Saved Maps");
+        loadMapsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to load the saved maps from file, replacing the current maps?",
+                        "Load Saved Maps: ", JOptionPane.YES_NO_OPTION);
+                if(option == 0) {
+                    loadMapsStateConfirm();
+                }
+            }
+        });
+        manageMapButton = new JButton("Manage Map");
+        mapInfoButton = new JButton("Map Info");
+        saveMapsButton = new JButton("Save Maps");
+        // exitButton = new JButton("Quit");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds button to container
+    private static void addAButton(JButton button, Container container) {
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setMaximumSize(new Dimension(320, 48));
+        container.add(button);
+    }
+
+    // EFFECTS: updates the JFrame
+    @Override
+    public void repaint() {
+        revalidate();
+        super.repaint();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes selected map when selected on list
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+
+            if (mapsJList.getSelectedIndex() == -1) {
+                onMapSelected(false);
+            } else {
+                onMapSelected(true);
+                selectIndex = mapsJList.getSelectedIndex();
+                selectedMap = maps.get(selectIndex);
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: enables/disables various buttons depending on passed bool
+    private void onMapSelected(boolean selected) {
+        manageMapButton.setEnabled(selected);
+        mapInfoButton.setEnabled(selected);
     }
 
     // MODIFIES: this
@@ -66,6 +270,7 @@ public class MapMaker {
         }
 
         System.out.println("Quitting application...");
+        System.exit(0);
     }
 
     // EFFECTS: displays menu of options to user, with information on stored maps
@@ -134,7 +339,9 @@ public class MapMaker {
     void createMap(String name) {
         CustomMap newMap = new CustomMap(name);
         maps.add(newMap);
+        mapsListModel.addElement(newMap);
         selectMap(newMap);
+        repaint();
     }
 
     // EFFECTS: prints info on stored maps and selected map
@@ -546,9 +753,16 @@ public class MapMaker {
             return;
         }
 
+        loadMapsStateConfirm();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads map information from file
+    private void loadMapsStateConfirm() {
         try {
             JsonReader jsonReader = new JsonReader(JSON_LOCATION);
             maps = jsonReader.read();
+            updateListPanel();
             System.out.println("Loaded maps from " + JSON_LOCATION);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_LOCATION);
@@ -605,6 +819,8 @@ public class MapMaker {
     void selectMap(CustomMap map) {
         selectedMap = map;
         selectIndex = maps.indexOf(map);
+        mapsJList.setSelectedIndex(selectIndex);
+        mapsJList.ensureIndexIsVisible(selectIndex);
     }
 
     // EFFECTS: returns a lowercase string of the next user input
