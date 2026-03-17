@@ -215,6 +215,16 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         });
 
         manageMapButton = new JButton("Manage Map");
+        manageMapButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    manageMap(selectedMap);
+                } catch (InvalidInputException ex) {
+                    // impossible
+                }
+                
+            }
+        });
         // mapInfoButton = new JButton("Map Info");
 
         saveMapsButton = new JButton("Save Maps");
@@ -499,6 +509,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             System.out.println(b);
             infoText.append(b + "\n");
         }
+        displayMenu();
     }
 
     // REQUIRES: selectedMap != null
@@ -783,6 +794,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_LOCATION);
         }
+        displayMenu();
     }
 
     // MODIFIES: this
@@ -818,8 +830,8 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             } catch (FileNotFoundException e2) {
                 System.out.println("Unable to write to file: " + JSON_LOCATION);
             }
-
         }
+        displayMenu();
     }
 
     // EFFECTS: returns a subclass of mapobject depending on string passed
