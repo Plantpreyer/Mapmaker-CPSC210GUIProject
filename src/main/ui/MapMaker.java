@@ -37,12 +37,13 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private JList<CustomMap> mapsJList;
     private DefaultListModel<CustomMap> mapsListModel;
     JPanel infoPanel;
+    JTextArea infoText;
     JPanel listPanel;
     JPanel buttonPanel;
     JButton newMapButton;
     JButton loadMapsButton;
     JButton manageMapButton;
-    JButton mapInfoButton;
+    // JButton mapInfoButton;
     JButton saveMapsButton;
     // JButton exitButton;
 
@@ -150,6 +151,12 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         title.setTitleJustification(TitledBorder.CENTER);
         infoPanel.setBorder(title);
 
+        infoText = new JTextArea("No maps! Make a new one?");
+        infoText.setEditable(false);
+
+        infoPanel.add(infoText, BorderLayout.CENTER);
+        // infoText.setMaximumSize(new Dimension(320, 720 - 240));
+
         add(infoPanel, BorderLayout.EAST);
     }
 
@@ -165,7 +172,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         addAButton(newMapButton, buttonPanel);
         addAButton(loadMapsButton, buttonPanel);
         addAButton(manageMapButton, buttonPanel);
-        addAButton(mapInfoButton, buttonPanel);
+        // addAButton(mapInfoButton, buttonPanel);
         addAButton(saveMapsButton, buttonPanel);
         // addAButton(exitButton, buttonPanel);
 
@@ -181,39 +188,53 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
     // MODIFIES: this
     // EFFECTS: names buttons
+    @SuppressWarnings("methodlength")
     private void setupButtons() {
         newMapButton = new JButton("New Map");
         newMapButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String selectedName = JOptionPane.showInputDialog(null, "Enter Name: ", "New Map: ", JOptionPane.QUESTION_MESSAGE);
+                String selectedName = JOptionPane.showInputDialog(null, "Enter Name: ", "New Map: ",
+                        JOptionPane.QUESTION_MESSAGE);
                 if (selectedName != null && !selectedName.equals("")) {
                     createMap(selectedName);
                     displayMenu();
                 }
             }
         });
+
         loadMapsButton = new JButton("Load Saved Maps");
         loadMapsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int option = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to load the saved maps from file, replacing the current maps?",
                         "Load Saved Maps: ", JOptionPane.YES_NO_OPTION);
-                if(option == 0) {
+                if (option == 0) {
                     loadMapsStateConfirm();
                 }
             }
         });
+
         manageMapButton = new JButton("Manage Map");
-        mapInfoButton = new JButton("Map Info");
+        // mapInfoButton = new JButton("Map Info");
+
         saveMapsButton = new JButton("Save Maps");
-        // exitButton = new JButton("Quit");
+        saveMapsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to save the current maps to the file?",
+                        "Save Maps to File: ", JOptionPane.YES_NO_OPTION);
+                if (option == 0) {
+                    saveMapsStateConfirm();
+                }
+            }
+        });
     }
 
     // MODIFIES: this
     // EFFECTS: adds button to container
     private static void addAButton(JButton button, Container container) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setMaximumSize(new Dimension(320, 48));
+        button.setMaximumSize(new Dimension(320, 60));
         container.add(button);
     }
 
@@ -231,10 +252,16 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
             if (mapsJList.getSelectedIndex() == -1) {
                 onMapSelected(false);
+                if (maps.isEmpty()) {
+                    infoText.setText("No maps! Make a new one?");
+                } else {
+                    infoText.setText(null);
+                }
             } else {
                 onMapSelected(true);
                 selectIndex = mapsJList.getSelectedIndex();
                 selectedMap = maps.get(selectIndex);
+                printMapInfoConfirm();
             }
         }
     }
@@ -243,7 +270,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     // EFFECTS: enables/disables various buttons depending on passed bool
     private void onMapSelected(boolean selected) {
         manageMapButton.setEnabled(selected);
-        mapInfoButton.setEnabled(selected);
+        // mapInfoButton.setEnabled(selected);
     }
 
     // MODIFIES: this
@@ -460,9 +487,17 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             throw new InvalidInputException();
         }
 
+        printMapInfoConfirm();
+    }
+
+    // REQUIRES: selectedMap != null
+    // EFFECTS: print selected map info
+    private void printMapInfoConfirm() {
+        infoText.setText("");
         List<String> mapInfo = selectedMap.mapInfo();
         for (String b : mapInfo) {
             System.out.println(b);
+            infoText.append(b + "\n");
         }
     }
 
@@ -733,6 +768,12 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             return;
         }
 
+        saveMapsStateConfirm();
+
+    }
+
+    // EFFECTS: writes map information to file
+    private void saveMapsStateConfirm() {
         try {
             JsonWriter jsonWriter = new JsonWriter(JSON_LOCATION);
             jsonWriter.open();
