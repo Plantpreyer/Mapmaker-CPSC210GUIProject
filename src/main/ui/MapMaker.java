@@ -95,6 +95,7 @@ public class MapMaker {
 
     // MODIFIES: this
     // EFFECTS: calls various methods depending on input string
+    @SuppressWarnings("methodlength")
     private void handleInput(String cmdString) throws InvalidInputException {
         switch (cmdString) {
             case "q":
@@ -110,15 +111,6 @@ public class MapMaker {
             case "f":
                 printMapInfo();
                 break;
-            default:
-                handleInputPt2(cmdString);
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: see above method
-    private void handleInputPt2(String cmdStr) throws InvalidInputException {
-        switch (cmdStr) {
             case "s":
                 saveMapsState();
                 break;
