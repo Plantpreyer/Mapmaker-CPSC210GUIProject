@@ -34,8 +34,11 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 720;
 
+    CardLayout cards;
+
     private JList<CustomMap> mapsJList;
     private DefaultListModel<CustomMap> mapsListModel;
+    JPanel menuPanel;
     JPanel infoPanel;
     JTextArea infoText;
     JPanel listPanel;
@@ -47,6 +50,16 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     JButton saveMapsButton;
     // JButton exitButton;
 
+    JPanel mapPanel;
+    JPanel mapWrapperPanel;
+    JPanel mapInfoPanel;
+    JTextArea mapInfoText;
+    JPanel mapButtonPanel;
+    JButton newFeatureButton;
+    JButton editFeatureButton;
+    JButton deleteMapButton;
+    JButton backButton;
+
     private static final Border BLACKLINE_BORDER = BorderFactory.createLineBorder(Color.black);
 
     private List<CustomMap> maps;
@@ -57,6 +70,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private boolean quit;
     private int spamCount;
     private ConstructorClass cons;
+    private boolean isInMap;
 
     private static final String JSON_LOCATION = "./data/MapData.json";
 
@@ -78,6 +92,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         cmdString = "";
         quit = false;
         cons = new ConstructorClass();
+        isInMap = false;
     }
 
     // MODIFIES: this
@@ -87,11 +102,26 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private void initializeGraphics() {
         ImageIcon icon = new ImageIcon("./images/icon.png");
         setIconImage(icon.getImage());
-        setLayout(new BorderLayout());
+
+        cards = new CardLayout();
+        setLayout(cards);
+
+        menuPanel = new JPanel(new BorderLayout());
+        menuPanel.setName("menuPanel");
+
+        mapPanel = new JPanel(new BorderLayout());
+        mapPanel.setName("mapPanel");
 
         setupListPanel();
         setupInfoPanel();
         setupButtonPanel();
+
+        setupMapScreen();
+
+        add(menuPanel, "menuPanel");
+        add(mapPanel, "mapPanel");
+
+        cards.show(this.getContentPane(), menuPanel.getName());
 
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,7 +155,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         listPanel.add(mapsScrollPane, BorderLayout.CENTER);
 
-        add(listPanel, BorderLayout.CENTER);
+        menuPanel.add(listPanel, BorderLayout.CENTER);
     }
 
     // MODIFIES: this
@@ -157,7 +187,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         infoPanel.add(infoText, BorderLayout.CENTER);
         // infoText.setMaximumSize(new Dimension(320, 720 - 240));
 
-        add(infoPanel, BorderLayout.EAST);
+        menuPanel.add(infoPanel, BorderLayout.EAST);
     }
 
     // MODIFIES: this
@@ -218,11 +248,16 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         manageMapButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    manageMap(selectedMap);
+                    isInMap = true;
+                    changeToMapPanel(selectedMap);
+                    printSelectInfo();
+                    printMapInfo();
+                    System.out.println("Editing map.");
+                    printManageMenu();
                 } catch (InvalidInputException ex) {
                     // impossible
                 }
-                
+
             }
         });
         // mapInfoButton = new JButton("Map Info");
@@ -246,6 +281,21 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(320, 60));
         container.add(button);
+    }
+
+    // EFFECTS: changes card to mapPanel
+    private void changeToMapPanel(CustomMap map) {
+
+        mapWrapperPanel.removeAll();
+        mapWrapperPanel.add(map, BorderLayout.CENTER);
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(
+                BLACKLINE_BORDER, map.getName());
+        title.setTitleJustification(TitledBorder.CENTER);
+        mapWrapperPanel.setBorder(title);
+
+        cards.show(this.getContentPane(), mapPanel.getName());
+        repaint();
     }
 
     // EFFECTS: updates the JFrame
@@ -280,7 +330,89 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     // EFFECTS: enables/disables various buttons depending on passed bool
     private void onMapSelected(boolean selected) {
         manageMapButton.setEnabled(selected);
-        // mapInfoButton.setEnabled(selected);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets up map viewing screen
+    private void setupMapScreen() {
+        mapWrapperPanel = new JPanel();
+
+        setupMapInfoPanel();
+        setupMapButtonPanel();
+
+        mapPanel.add(mapWrapperPanel, BorderLayout.CENTER);
+        mapPanel.add(mapInfoPanel, BorderLayout.EAST);
+        mapInfoPanel.add(mapButtonPanel, BorderLayout.SOUTH);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates map info panel
+    private void setupMapInfoPanel() {
+        mapInfoPanel = new JPanel();
+        mapInfoPanel.setLayout(new BorderLayout());
+        mapInfoPanel.setPreferredSize(new Dimension(320, 0));
+
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(
+                BLACKLINE_BORDER, "INFO");
+        title.setTitleJustification(TitledBorder.CENTER);
+        mapInfoPanel.setBorder(title);
+
+        mapInfoText = new JTextArea();
+        mapInfoText.setEditable(false);
+
+        mapInfoPanel.add(mapInfoText, BorderLayout.CENTER);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates button panel for map with interactions
+    private void setupMapButtonPanel() {
+        mapButtonPanel = new JPanel();
+        mapButtonPanel.setPreferredSize(new Dimension(0, 240));
+        mapButtonPanel.setLayout(new BoxLayout(mapButtonPanel, BoxLayout.Y_AXIS));
+
+        setupMapButtons();
+
+        addAButton(newFeatureButton, mapButtonPanel);
+        addAButton(editFeatureButton, mapButtonPanel);
+        addAButton(deleteMapButton, mapButtonPanel);
+        addAButton(backButton, mapButtonPanel);
+
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder(
+                BLACKLINE_BORDER, "SELECT FROM: ");
+        title.setTitleJustification(TitledBorder.CENTER);
+        mapButtonPanel.setBorder(title);
+
+        mapInfoPanel.add(mapButtonPanel, BorderLayout.SOUTH);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: names buttons
+    @SuppressWarnings("methodlength")
+    private void setupMapButtons() {
+        newFeatureButton = new JButton("New Feature");
+        newFeatureButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
+        editFeatureButton = new JButton("Edit Feature");
+        editFeatureButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        deleteMapButton = new JButton("Delete Map");
+        deleteMapButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
+        backButton = new JButton("Back to Menu");
     }
 
     // MODIFIES: this
@@ -293,11 +425,14 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             if (!maps.isEmpty()) {
                 selectedMap = maps.get(selectIndex);
             }
-            displayMenu();
-
-            cmdString = takeInput();
+            if (isInMap) {
+                printManageMenu();
+            } else {
+                displayMenu();
+            }
             try {
-                handleInput(cmdString);
+                cmdString = takeInput();
+                handleInputInMapOrNo();
             } catch (InvalidInputException e) {
                 System.out.println("Error: couldn't interpret input.");
                 quit = incrementSpam();
@@ -308,6 +443,20 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         System.out.println("Quitting application...");
         System.exit(0);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles input
+    public void handleInputInMapOrNo() throws InvalidInputException {
+        if (isInMap) {
+            if (manageMapAction(cmdString)) {
+                isInMap = false;
+                cards.show(this.getContentPane(), "menuPanel");
+                repaint();
+            }
+        } else {
+            handleInput(cmdString);
+        }
     }
 
     // EFFECTS: displays menu of options to user, with information on stored maps
@@ -383,6 +532,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
     // EFFECTS: prints info on stored maps and selected map
     private void printSelectInfo() {
+        System.out.println();
         System.out.println("# of maps: " + maps.size());
         System.out.print("Selected map: [" + (selectIndex + 1) + "] ");
         System.out.println("\'" + selectedMap.getName() + "\'");
@@ -425,17 +575,27 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             throw new InvalidInputException();
         }
 
+        isInMap = true;
+        changeToMapPanel(map);
+
+        manageMapConfirm(map);
+
+        cards.show(this.getContentPane(), "menuPanel");
+        repaint();
+        isInMap = false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles operations on selected map object, if no map selected throws
+    // expception
+    void manageMapConfirm(CustomMap map) throws InvalidInputException {
         boolean quit = false;
 
         while (!quit) {
-            System.out.println(); // new line
-            printSelectInfo();
             printMapInfo();
             System.out.println("Editing map.");
-
             printManageMenu();
 
-            String cmdString;
             cmdString = takeInput();
             try {
                 if (manageMapAction(cmdString)) {
@@ -509,7 +669,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             System.out.println(b);
             infoText.append(b + "\n");
         }
-        displayMenu();
+        // displayMenu();
     }
 
     // REQUIRES: selectedMap != null
@@ -519,10 +679,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         System.out.println("!!!!! Are you sure? y/n");
         cmdString = takeInput();
         if (cmdString.equals("y")) {
-            System.out.println("WE ARE DELETING YOUR MAP...");
-            maps.remove(selectIndex);
-            selectIndex = 0;
-            selectedMap = null;
+            deleteMapConfirm();
             return true;
         } else if (cmdString.equals("n")) {
             System.out.println("Cancelled");
@@ -530,6 +687,20 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         } else {
             throw new InvalidInputException();
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: deletes selected map
+    private void deleteMapConfirm() {
+        System.out.println("WE ARE DELETING YOUR MAP...");
+        maps.remove(selectIndex);
+        selectIndex = 0;
+        try {
+            selectedMap = maps.get(selectIndex);
+        } catch (IndexOutOfBoundsException e) {
+            selectedMap = null;
+        }
+        updateListPanel();
     }
 
     // MODIFIES: this
@@ -816,6 +987,9 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             JsonReader jsonReader = new JsonReader(JSON_LOCATION);
             maps = jsonReader.read();
             updateListPanel();
+            selectIndex = 0;
+            selectedMap = maps.get(selectIndex);
+            selectMap(selectedMap);
             System.out.println("Loaded maps from " + JSON_LOCATION);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_LOCATION);

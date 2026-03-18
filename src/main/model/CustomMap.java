@@ -1,6 +1,10 @@
 package model;
 
 import java.util.*;
+import java.util.List;
+
+import javax.swing.*;
+import java.awt.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +19,7 @@ import persistence.Writable;
 //           viewBotRight not higher or to the right of 192, 192
 // represents a customizable map with buildings, roads, trees, routes, and markers
 // map has a name, and two points representing the view user has on the map
-public class CustomMap implements Writable {
+public class CustomMap extends JPanel implements Writable {
     protected String name;
     protected List<MapObject> objects;
     // protected List<Marker> markers;
