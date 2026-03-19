@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import model.exceptions.InvalidInputException;
 import model.feature.MapObject;
+import model.feature.MapPoint;
 // import model.feature.Marker;
 import model.feature.Route;
 import persistence.Writable;
@@ -35,6 +36,25 @@ public class CustomMap extends JPanel implements Writable {
 
     // private static final int MAP_MAX_SIZE = 192;
     // private static final int SHIFT_SIZE = MAP_MAX_SIZE / 4;
+
+    // Override of paint, draws features on the panel
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        float thickness = 5.0f;
+        g2.setStroke(new BasicStroke(thickness));
+
+        g.setColor(Color.BLUE);
+        for (Route b : routes) {
+            for (int i = 1; i < b.getPoints().size(); i++) {
+                MapPoint p1 = b.getPoints().get(i - 1);
+                MapPoint p2 = b.getPoints().get(i);
+                g.drawLine(p1.getXpos(), p1.getYpos(), p2.getXpos(), p2.getYpos());
+            }
+        }
+    }
 
     // REQUIRES: name not empty
     // MODIFIES: this

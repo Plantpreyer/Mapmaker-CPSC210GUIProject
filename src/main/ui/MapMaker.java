@@ -311,6 +311,8 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private void changeToMapPanel(CustomMap map) {
         mapWrapperPanel.removeAll();
         mapWrapperPanel.add(map, BorderLayout.CENTER);
+        map.setPreferredSize(new Dimension(HEIGHT, HEIGHT));
+        map.setBackground(Color.GREEN);
         TitledBorder title;
         title = BorderFactory.createTitledBorder(
                 BLACKLINE_BORDER, map.getName());
@@ -495,8 +497,8 @@ public class MapMaker extends JFrame implements ListSelectionListener {
                 int x1 = Integer.parseInt(x1Field.getText());
                 int y1 = Integer.parseInt(x1Field.getText());
                 newPoints.add(new MapPoint(name1, x1, y1));
-                int x2 = Integer.parseInt(x1Field.getText());
-                int y2 = Integer.parseInt(x1Field.getText());
+                int x2 = Integer.parseInt(x2Field.getText());
+                int y2 = Integer.parseInt(x2Field.getText());
                 newPoints.add(new MapPoint(name2, x2, y2));
             } else {
                 break exitPanel;
@@ -528,6 +530,9 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             }
             if (option != -1 & option != 2) {
                 selectedMap.addRoute(new Route(name, newPoints));
+                updateInfoPanel();
+                repaint();
+                return;
             }
         }
         showErrorPane();
@@ -572,6 +577,17 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     public void changeToMenuPanel() {
         isInMap = false;
         cards.show(this.getContentPane(), "menuPanel");
+    }
+
+    // EFFECTS: updates info panels
+    private void updateInfoPanel() {
+        infoText.setText("");
+        mapInfoText.setText("");
+        List<String> mapInfo = selectedMap.mapInfo();
+        for (String b : mapInfo) {
+            infoText.append(b + "\n");
+            mapInfoText.append(b + "\n");
+        }
     }
 
     // MODIFIES: this
@@ -1084,6 +1100,8 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             String newName = input.next();
 
             selectedMap.addRoute(cons.constructRoute(newName, 0, 0, input));
+            updateInfoPanel();
+            repaint();
         } catch (Exception e) {
             throw new InvalidInputException();
         }

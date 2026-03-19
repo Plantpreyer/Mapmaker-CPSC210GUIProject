@@ -1,6 +1,20 @@
 [
     {
-        "routes": [],
+        "routes": [{
+            "name": "sadasda",
+            "points": [
+                {
+                    "ypos": 200,
+                    "xpos": 200,
+                    "name": ""
+                },
+                {
+                    "ypos": 600,
+                    "xpos": 600,
+                    "name": ""
+                }
+            ]
+        }],
         "objects": [],
         "name": "map1"
     },
