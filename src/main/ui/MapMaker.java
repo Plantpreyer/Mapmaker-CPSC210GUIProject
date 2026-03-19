@@ -2,6 +2,7 @@ package ui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.NumberFormatter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +23,7 @@ import model.CustomMap;
 import model.exceptions.InvalidInputException;
 import model.exceptions.ObjectClassificationException;
 import model.feature.MapObject;
+import model.feature.MapPoint;
 import model.feature.Route;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -60,6 +63,17 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     JButton deleteMapButton;
     JButton backButton;
 
+    JTextField nameField = new JTextField();
+    JTextField name1Field = new JTextField();
+    JTextField x1Field = new JTextField();
+    JTextField y1Field = new JTextField();
+    JTextField name2Field = new JTextField();
+    JTextField x2Field = new JTextField();
+    JTextField y2Field = new JTextField();
+
+    Object[] routeQFields;
+
+    private static NumberFormatter intFormatter;
     private static final Border BLACKLINE_BORDER = BorderFactory.createLineBorder(Color.black);
 
     private List<CustomMap> maps;
@@ -93,6 +107,15 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         quit = false;
         cons = new ConstructorClass();
         isInMap = false;
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumIntegerDigits(0);
+
+        nf.setGroupingUsed(false);
+        intFormatter = new NumberFormatter(nf);
+        intFormatter.setValueClass(Integer.class);
+        intFormatter.setAllowsInvalid(false);
+        intFormatter.setMaximum(Integer.MAX_VALUE);
+        intFormatter.setMinimum(0);
     }
 
     // MODIFIES: this
@@ -163,6 +186,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private void updateListPanel() {
         mapsListModel = new DefaultListModel<>();
         mapsListModel.addAll(maps);
+        saveMapsButton.setEnabled(!mapsListModel.isEmpty());
 
         mapsJList.setModel(mapsListModel);
     }
@@ -285,7 +309,6 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
     // EFFECTS: changes card to mapPanel
     private void changeToMapPanel(CustomMap map) {
-
         mapWrapperPanel.removeAll();
         mapWrapperPanel.add(map, BorderLayout.CENTER);
         TitledBorder title;
@@ -293,6 +316,9 @@ public class MapMaker extends JFrame implements ListSelectionListener {
                 BLACKLINE_BORDER, map.getName());
         title.setTitleJustification(TitledBorder.CENTER);
         mapWrapperPanel.setBorder(title);
+
+        mapInfoText.setText("");
+        printMapInfoConfirm();
 
         cards.show(this.getContentPane(), mapPanel.getName());
         repaint();
@@ -394,25 +420,158 @@ public class MapMaker extends JFrame implements ListSelectionListener {
         newFeatureButton = new JButton("New Feature");
         newFeatureButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                newFeatureUIPrompt();
             }
         });
 
         editFeatureButton = new JButton("Edit Feature");
         editFeatureButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                newFeatureUIPrompt();
             }
         });
 
         deleteMapButton = new JButton("Delete Map");
         deleteMapButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                int option = JOptionPane.showConfirmDialog(null,
+                        "!!!!! Are you sure?",
+                        "DELETE MAP?", JOptionPane.YES_NO_OPTION);
+                if (option == 0) {
+                    changeToMenuPanel();
+                    deleteMapConfirm();
+                }
             }
         });
 
         backButton = new JButton("Back to Menu");
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeToMenuPanel();
+            }
+        });
+    }
+
+    // MODIFIES: this
+    // EFFECTS: asks user which type of feature they want to make and adds it to map
+    private void newFeatureUIPrompt() {
+        String[] options = { "Route", "Building", "Tree" };
+        int result = JOptionPane.showOptionDialog(null, "Select type of feature:", "New Feature",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+        switch (result) {
+            case 0:
+                newRouteUIPrompt();
+                break;
+            case 1:
+                break;
+
+            case 2:
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    // EFFECTS: prompts user for new route details, adds route to map
+    @SuppressWarnings("methodlength")
+    private void newRouteUIPrompt() {
+        setUpRouteUIPrompt();
+
+        String[] options = new String[] { "Add another point", "Finish", "Cancel" };
+        int option = JOptionPane.showOptionDialog(null, routeQFields, "New Route", JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, options, null);
+        exitPanel: if (option != -1 & option != 2) {
+            List<MapPoint> newPoints = new ArrayList<MapPoint>();
+            String name = nameField.getText();
+            List<String> pointValues = new ArrayList<>();
+            pointValues.add(x1Field.getText());
+            pointValues.add(y1Field.getText());
+            pointValues.add(x2Field.getText());
+            pointValues.add(y2Field.getText());
+            if (!name.isEmpty() & allValidCoords(pointValues)) {
+                String name1 = name1Field.getText();
+                String name2 = name2Field.getText();
+                int x1 = Integer.parseInt(x1Field.getText());
+                int y1 = Integer.parseInt(x1Field.getText());
+                newPoints.add(new MapPoint(name1, x1, y1));
+                int x2 = Integer.parseInt(x1Field.getText());
+                int y2 = Integer.parseInt(x1Field.getText());
+                newPoints.add(new MapPoint(name2, x2, y2));
+            } else {
+                break exitPanel;
+            }
+            while (option == 0) {
+                name1Field.setText("");
+                x1Field.setText("");
+                y1Field.setText("");
+                routeQFields = new Object[] { "point name (optional):",
+                        name1Field,
+                        "x:",
+                        x1Field,
+                        "y:",
+                        y1Field
+                };
+                option = JOptionPane.showOptionDialog(null, routeQFields, "New Route", JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, options, null);
+                pointValues = new ArrayList<>();
+                pointValues.add(x1Field.getText());
+                pointValues.add(y1Field.getText());
+                if (allValidCoords(pointValues)) {
+                    String name1 = name1Field.getText();
+                    int x1 = Integer.parseInt(x1Field.getText());
+                    int y1 = Integer.parseInt(x1Field.getText());
+                    newPoints.add(new MapPoint(name1, x1, y1));
+                } else {
+                    break exitPanel;
+                }
+            }
+            if (option != -1 & option != 2) {
+                selectedMap.addRoute(new Route(name, newPoints));
+            }
+        }
+        showErrorPane();
+    }
+
+    // EFFECTS: initializes fields for route ui prompt
+    private void setUpRouteUIPrompt() {
+        nameField = new JTextField();
+        name1Field = new JTextField();
+        x1Field = new JTextField();
+        y1Field = new JTextField();
+        name2Field = new JTextField();
+        x2Field = new JTextField();
+        y2Field = new JTextField();
+
+        routeQFields = new Object[] { "name:", nameField, "First point name (optional):", name1Field, "x:", x1Field,
+                "y:", y1Field, "Second point name (optional):", name2Field, "x:", x2Field, "y:", y2Field };
+    }
+
+    // EFFECTS: returns true if all strings in list represent integers and are
+    // within coord range
+    private boolean allValidCoords(List<String> list) {
+        for (String b : list) {
+            if (!b.chars().allMatch(Character::isDigit) | b.isEmpty()) {
+                return false;
+            }
+            int bb = Integer.parseInt(b);
+            if (bb < 0 | bb > HEIGHT) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // EFFECTS: shows a popup indicating an error occurred
+    private void showErrorPane() {
+        JOptionPane.showMessageDialog(null, "Cancelled: invalid input", "Error",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // EFFECTS: switches panel from map to menu
+    public void changeToMenuPanel() {
+        isInMap = false;
+        cards.show(this.getContentPane(), "menuPanel");
     }
 
     // MODIFIES: this
@@ -664,10 +823,12 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     // EFFECTS: print selected map info
     private void printMapInfoConfirm() {
         infoText.setText("");
+        mapInfoText.setText("");
         List<String> mapInfo = selectedMap.mapInfo();
         for (String b : mapInfo) {
             System.out.println(b);
             infoText.append(b + "\n");
+            mapInfoText.append(b + "\n");
         }
         // displayMenu();
     }
