@@ -246,6 +246,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private void setupButtons() {
         newMapButton = new JButton("New Map");
         newMapButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 String selectedName = JOptionPane.showInputDialog(null, "Enter Name: ", "New Map: ",
                         JOptionPane.QUESTION_MESSAGE);
@@ -258,6 +259,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         loadMapsButton = new JButton("Load Saved Maps");
         loadMapsButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 int option = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to load the saved maps from file, replacing the current maps?",
@@ -270,6 +272,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         manageMapButton = new JButton("Manage Map");
         manageMapButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 try {
                     isInMap = true;
@@ -288,6 +291,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         saveMapsButton = new JButton("Save Maps");
         saveMapsButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 int option = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to save the current maps to the file?",
@@ -421,6 +425,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
     private void setupMapButtons() {
         newFeatureButton = new JButton("New Feature");
         newFeatureButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 newFeatureUIPrompt();
             }
@@ -428,6 +433,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         editFeatureButton = new JButton("Edit Feature");
         editFeatureButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 newFeatureUIPrompt();
             }
@@ -435,6 +441,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         deleteMapButton = new JButton("Delete Map");
         deleteMapButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 int option = JOptionPane.showConfirmDialog(null,
                         "!!!!! Are you sure?",
@@ -448,6 +455,7 @@ public class MapMaker extends JFrame implements ListSelectionListener {
 
         backButton = new JButton("Back to Menu");
         backButton.addActionListener(new ActionListener() {
+            @ExcludeFromJacocoGeneratedReport
             public void actionPerformed(ActionEvent e) {
                 changeToMenuPanel();
             }

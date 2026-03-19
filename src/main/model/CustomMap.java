@@ -9,6 +9,7 @@ import java.awt.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.exceptions.InvalidInputException;
 import model.feature.MapObject;
 import model.feature.MapPoint;
@@ -38,6 +39,7 @@ public class CustomMap extends JPanel implements Writable {
     // private static final int SHIFT_SIZE = MAP_MAX_SIZE / 4;
 
     // Override of paint, draws features on the panel
+    @ExcludeFromJacocoGeneratedReport
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -46,6 +48,14 @@ public class CustomMap extends JPanel implements Writable {
         float thickness = 5.0f;
         g2.setStroke(new BasicStroke(thickness));
 
+        paintRoutes(g);
+
+        paintObjects(g);
+    }
+
+    @ExcludeFromJacocoGeneratedReport
+    // EFFECTS: paints roads as lines on panel
+    private void paintRoutes(Graphics g) {
         g.setColor(Color.BLUE);
         for (Route b : routes) {
             for (int i = 1; i < b.getPoints().size(); i++) {
@@ -54,7 +64,11 @@ public class CustomMap extends JPanel implements Writable {
                 g.drawLine(p1.getXpos(), p1.getYpos(), p2.getXpos(), p2.getYpos());
             }
         }
+    }
 
+    @ExcludeFromJacocoGeneratedReport
+    // EFFECTS: paints objects on panel
+    private void paintObjects(Graphics g) {
         for (MapObject b : objects) {
             switch (b.getType()) {
                 case "building":
