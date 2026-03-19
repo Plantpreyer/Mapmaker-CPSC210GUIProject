@@ -1086,6 +1086,8 @@ public class MapMaker extends JFrame implements ListSelectionListener {
             MapObject newObj = convertObjType(type, newObjX, newObjY, newObjName, newObjHeight);
 
             selectedMap.addObject(newObj);
+            updateInfoPanel();
+            repaint();
         } catch (Exception e) {
             throw new InvalidInputException();
         }

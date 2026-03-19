@@ -15,7 +15,14 @@
                 }
             ]
         }],
-        "objects": [],
+        "objects": [{
+            "ypos": 250,
+            "xpos": 250,
+            "name": "pootree",
+            "type": "tree",
+            "radius": 50,
+            "height": 222
+        }],
         "name": "map1"
     },
     {

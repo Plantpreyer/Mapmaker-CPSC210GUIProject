@@ -54,6 +54,21 @@ public class CustomMap extends JPanel implements Writable {
                 g.drawLine(p1.getXpos(), p1.getYpos(), p2.getXpos(), p2.getYpos());
             }
         }
+
+        for (MapObject b : objects) {
+            switch (b.getType()) {
+                case "building":
+                    g.setColor(Color.GRAY);
+                    g.fillRect(b.getXpos(), b.getYpos(), b.getXdim(), b.getYdim());
+                    break;
+                case "tree":
+                    g.setColor(new Color(24, 105, 41));
+                    g.fillOval(b.getXpos(), b.getYpos(), 2 * b.getRadius(), 2 * b.getRadius());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     // REQUIRES: name not empty
