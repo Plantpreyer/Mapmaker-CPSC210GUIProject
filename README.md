@@ -31,3 +31,4 @@ Phase 2:
 
 - Implement a customizable filepath for saving and loading
 - Implement adding MapObject, editing MapObjects via the GUI
+- Implement Feature information on hover
